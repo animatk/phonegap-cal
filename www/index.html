@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html xmlns:fb="http://www.facebook.com/2008/fbml" xmlns:og="http://opengraphprotocol.org/schema/" />
+<head>
+	<title> Calendar connect </title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="initial-scale=1, maximum-scale=1" />
+	<link href="css/bootstrap.min.css" rel="stylesheet" />
+	<link href="css/style.css" rel="stylesheet" />
+</head>
+<body>
+<div id="fb-root"></div>
+<section class="Canvas">
+	<!--<header>
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-4"> 
+					<div class="logo"> 
+						<h1>
+							calendar app
+						</h1>
+					</div>
+				</div>
+			</div>
+		</div>
+	</header>-->
+	<section id="login" class="Page toCenter">
+		<div class="Main">
+			<div class="container">
+				<form action="" onsubmit="return form_login( this ); return false;">
+					<div class="input-group">
+						<span class="input-group-addon"> Código </span>
+						<input name="codigo" class="form-control required onlynum" value="" placeholder="Código" /> 
+						<span class="input-group-btn"><button id="BtnCodigo" class="btn btn-primary"> ENVIAR </button></span>
+					</div>
+				</form>
+			</div><!-- End container-->
+		</div><!-- End main-->
+	</section>
+	<section id="home" class="Page">
+		<div class="Main">
+			<div class="container">
+				<span class="the-title"> Calendario </span>
+				<div class="row">
+					<div class="col-sm-6"> 
+						<button id="authorize-button" class="btn btn-danger" style="visibility: hidden"> Authorize Google Calendar </button>
+						<div id="GCalConn"></div>
+						<fb:login-button id="fb-auth-btn" scope="public_profile,user_friends,friends_birthday,user_birthday,user_events,rsvp_event" onlogin="fb_init();"></fb:login-button>
+						<div id="status"></div>
+						<div id="signin"></div>
+						<div id="info"></div>
+					</div>
+					<div class="col-sm-6">
+						<div class="Calendario"></div>
+					</div>
+				</div>
+			</div><!-- End container-->
+		</div><!-- End main-->
+	</section>
+</section>
+
+<script src="cordova.js"></script>
+<script src="js/jquery-1.10.1.min.js" type="text/javascript"></script>
+<script src="https://apis.google.com/js/client.js" type="text/javascript"></script>	
+<script src="//js.live.net/v5.0/wl.js" type="text/javascript"></script>
+<script src="js/scripts.js" type="text/javascript"></script>
+
+<div id="EventoDetalles" class="modal fade">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<a href="#!" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></a>
+				<h4 class="modal-title"> Evento </h4>
+			</div>
+			<div class="modal-body">
+			<!--detalles-->
+			</div>
+			<div class="modal-footer">
+				<a href="#!" class="btn btn-default" data-dismiss="modal">Close</a>
+				<!-- <a href="#!" class="btn btn-primary">Save changes</a> -->
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div id="EventoAgregar" class="modal fade">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<a href="#!" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></a>
+				<h4 class="modal-title"> Gestionar Evento </h4>
+			</div>
+			<div class="modal-body">
+				<form action="#!" id="saveEvent" method="POST">
+					<input name="EventName" class="form-control required margin-input" value="" placeholder="Nombre del evento" />
+					<textarea name="EventDesc" class="form-control required margin-input" placeholder="Descripción del evento"></textarea>
+					<div class="row">
+						<div class="col-xs-6">
+							<input name="EventIni" id="pickerIni" class="form-control required fecha-hora margin-input" value="" placeholder="Fecha de inicio" />
+						</div>
+						<div class="col-xs-6">
+							<input name="EventEnd" id="pickerEnd" class="form-control required fecha-hora margin-input" value="" placeholder="Fecha de fin" />
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-6">
+							<input name="EventPlace" class="form-control margin-input" value="" placeholder="Lugar del evento" />
+						</div>
+						<div class="col-xs-6">
+							<select name="EventPrivacy" class="form-control margin-input" value="" placeholder="Privacidad publicación del evento">
+								<option value="1"> Evento Público </option>
+								<option value="2"> Evento Privado / Solo yo </option>
+								<option value="3"> Evento visible a Amigos / Contactos </option>
+							</select>
+						</div>
+					</div>
+					<!-- Checkboxes -->
+					<div class="margin-input">
+						<label for="EventAll">
+							<input name="EventAll" type="checkbox" value="" onchange="if(this.value == ''){ this.value = 't'; }else{ this.value = '' }" /> 
+							Todo el día
+						</label>
+					</div>
+					<div id="auth_fb" class="margin-input" style="display:none;">
+						<label for="auth_fb">
+							<input name="auth_fb" type="checkbox" value="" onchange="if(this.value == ''){ this.value = 't'; }else{ this.value = '' }" /> 
+							Establecer como evento de Facebook 
+						</label>
+					</div>
+					<div id="auth_gc" class="margin-input" style="display:none;">
+						<label for="auth_gc">
+							<input name="auth_gc" type="checkbox" value="" onchange="if(this.value == ''){ this.value = 't'; }else{ this.value = '' }" /> 
+							Establecer como evento de Google Calendar
+						</label>
+					</div>
+					<div id="auth_mw" class="margin-input" style="display:none;">
+						<label for="auth_mw">
+							<input name="auth_mw" type="checkbox" value="" onchange="if(this.value == ''){ this.value = 't'; }else{ this.value = '' }" /> 
+							Establecer como evento de Windows Calendar 
+						</label>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<a href="#!" class="btn btn-default" data-dismiss="modal"> Cancelar </a>
+				<a href="#!" class="btn btn-primary boton-saveEvent" onclick="guardar_evento();"> Guardar Evento </a>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+</body>
+</html>
