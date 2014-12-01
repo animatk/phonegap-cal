@@ -94,6 +94,8 @@ ol li{
 img{vertical-align:middle;}
 
 header{
+	top: 0; 
+	left: 0; 
 	width: 100%;
 	z-index: 999;
 	position: fixed;

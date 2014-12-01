@@ -9,53 +9,54 @@
 </head>
 <body>
 <div id="fb-root"></div>
-
-<header>
-	<div class="container">
-		<div class="row">
-			<div class="col-sm-4"> 
-				<div class="logo"> 
-					<div class="btn-group">
-						<a href="#!" onclick="ak_navigate('#home', '#login');" class="btn btn-primary"> to Login </a>
-						<a href="#!" onclick="ak_navigate('#login', '#home', 'toRight');" class="btn btn-primary"> to Main </a>
+<section class="Canvas">
+	<header>
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-4"> 
+					<div class="logo"> 
+						<div class="btn-group">
+							<a href="#!" onclick="ak_navigate('#home', '#login');" class="btn btn-primary"> to Login </a>
+							<a href="#!" onclick="ak_navigate('#login', '#home', 'toRight');" class="btn btn-primary"> to Main </a>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
-</header>
-<section id="login" class="Page toCenter">
-	<div class="Main">
-		<div class="container">
-			<form action="" onsubmit="return form_login( this ); return false;">
-				<div class="input-group">
-					<span class="input-group-addon"> Código </span>
-					<input name="codigo" class="form-control required onlynum" value="" placeholder="Código" /> 
-					<span class="input-group-btn"><button id="BtnCodigo" class="btn btn-primary"> ENVIAR </button></span>
+	</header>
+	<section id="login" class="Page toCenter">
+		<div class="Main">
+			<div class="container">
+				<form action="" onsubmit="return form_login( this ); return false;">
+					<div class="input-group">
+						<span class="input-group-addon"> Código </span>
+						<input name="codigo" class="form-control required onlynum" value="" placeholder="Código" /> 
+						<span class="input-group-btn"><button id="BtnCodigo" class="btn btn-primary"> ENVIAR </button></span>
+					</div>
+				</form>
+			</div><!-- End container-->
+		</div><!-- End main-->
+	</section>
+	<section id="home" class="Page">
+		<div class="Main">
+			<div class="container">
+				<span class="the-title"> Calendario </span>
+				<div class="row">
+					<div class="col-sm-6"> 
+						<button id="authorize-button" class="btn btn-danger" style="visibility: hidden"> Authorize Google Calendar </button>
+						<div id="GCalConn"></div>
+						<fb:login-button id="fb-auth-btn" scope="public_profile,user_friends,friends_birthday,user_birthday,user_events,rsvp_event" onlogin="fb_init();"></fb:login-button>
+						<div id="status"></div>
+						<div id="signin"></div>
+						<div id="info"></div>
+					</div>
+					<div class="col-sm-6">
+						<div class="Calendario"></div>
+					</div>
 				</div>
-			</form>
-		</div><!-- End container-->
-	</div><!-- End main-->
-</section>
-<section id="home" class="Page">
-	<div class="Main">
-		<div class="container">
-			<span class="the-title"> Calendario </span>
-			<div class="row">
-				<div class="col-sm-6"> 
-					<button id="authorize-button" class="btn btn-danger" style="visibility: hidden"> Authorize Google Calendar </button>
-					<div id="GCalConn"></div>
-					<fb:login-button id="fb-auth-btn" scope="public_profile,user_friends,friends_birthday,user_birthday,user_events,rsvp_event" onlogin="fb_init();"></fb:login-button>
-					<div id="status"></div>
-					<div id="signin"></div>
-					<div id="info"></div>
-				</div>
-				<div class="col-sm-6">
-					<div class="Calendario"></div>
-				</div>
-			</div>
-		</div><!-- End container-->
-	</div><!-- End main-->
+			</div><!-- End container-->
+		</div><!-- End main-->
+	</section>
 </section>
 
 <script src="cordova.js"></script>
