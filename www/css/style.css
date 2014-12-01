@@ -250,15 +250,19 @@ header{
    transform: translate3d(100%, 0, 0);
    overflow: hidden;
    overflow-y: auto;
+   z-index: 1;
 }
 .toLeft {
     transform: translate3d(-100%, 0, 0);
+	z-index: 1;
 }
 .toCenter {
     transform: translate3d(0, 0, 0);
+	z-index: 2;
 }
 .toRight {
     transform: translate3d(100%, 0, 0);
+	z-index: 1;
 }
 
 /*!
