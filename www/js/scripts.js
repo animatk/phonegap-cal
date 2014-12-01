@@ -544,8 +544,8 @@ function init_calendar(){
 		}
 	});
 	
-	fb_init();
-	goo_init();
+//	fb_init();
+//	goo_init();
 }
 
 function loop_calendar(obj, dat, fre, tot){
@@ -918,7 +918,7 @@ function fb_init() {
 	  statusChangeCallback(response);
 	});
 }
-
+/*
 window.fbAsyncInit = function() {
 	  FB.init({
 		appId      : '326339840802808',
@@ -941,6 +941,8 @@ window.fbAsyncInit = function() {
 	js.src = "//connect.facebook.net/en_US/sdk.js";
 	fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));
+
+*/
 
 // Here we run a very simple test of the Graph API after login is
 // successful.  See statusChangeCallback() for when this call is made.
