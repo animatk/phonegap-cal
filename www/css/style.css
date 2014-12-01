@@ -240,26 +240,30 @@ header{
 }
 
 .Page {
+   z-index: 1;
    width: 100%; 
    height: 100%;
-   position: absolute;
-   transition-duration: 3.5s;
-   transform: translate3d(100%, 0, 0);
    overflow: hidden;
    overflow-y: auto;
-   z-index: 1;
+   position: absolute;
+   transition-duration: 3.5s;
+   -webkit-transform: translate3d(100%, 0, 0);
+		   transform: translate3d(100%, 0, 0);
 }
 .toLeft {
-    transform: translate3d(-100%, 0, 0);
 	z-index: 1;
+    -webkit-transform: translate3d(-100%, 0, 0);
+		    transform: translate3d(-100%, 0, 0);
 }
 .toCenter {
-    transform: translate3d(0, 0, 0);
 	z-index: 2;
+    -webkit-transform: translate3d(0, 0, 0);
+		    transform: translate3d(0, 0, 0);
 }
 .toRight {
-    transform: translate3d(100%, 0, 0);
 	z-index: 1;
+    -webkit-transform: translate3d(100%, 0, 0);
+		    transform: translate3d(100%, 0, 0);
 }
 
 /*!
