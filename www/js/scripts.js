@@ -350,8 +350,6 @@ $(function(){
 		ak_showtip( $input, $input.attr('placeholder'));
 	});
 	
-	$('input[name=codigo]').val(location.host);
-	
 	if( !MOBILE )
 	{
 		
