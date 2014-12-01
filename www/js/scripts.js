@@ -414,11 +414,10 @@ $(function(){
 	
 });
 
-function ak_navigate(from, to, effect){
-	var fx = (effect != undefined)? effect : 'toLeft'; //toCenter
+function ak_navigate(from, to){
 	$(from).removeClass('toCenter toLeft toRight');
 	$( to ).removeClass('toCenter toLeft toRight');
-	$(from).addClass(fx);
+	$(from).addClass('toLeft');
 	$( to ).addClass('toCenter');
 }
 
