@@ -435,6 +435,8 @@ function form_login(form){
 			//
 			loadCont( SITE_URL+'app?pedir=codigo&num='+data.codigo, function(d){
 				var obj = jQuery.parseJSON(d);
+				$('#cortina').remove();
+				
 				if(obj.success === false){
 					ak_showtip(  $(obj.selector), obj.msj );
 				}else{
@@ -442,7 +444,6 @@ function form_login(form){
 					init_calendar();			
 				}
 				
-				$('#cortina').remove();
 			});
 			
 		}
