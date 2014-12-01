@@ -415,9 +415,10 @@ $(function(){
 });
 
 function ak_navigate(from, to){
-	$(from).removeClass('toCenter').removeClass('toLeft').removeClass('toRight');
-	$( to ).removeClass('toCenter').removeClass('toLeft').removeClass('toRight');
-	$(from).addClass('toLeft');
+	var fx = (effect != undefined)? effect : 'toLeft';
+	$(from).removeClass('toCenter toLeft toRight');
+	$( to ).removeClass('toCenter toLeft toRight');
+	$(from).addClass(fx);
 	$( to ).addClass('toCenter');
 }
 
