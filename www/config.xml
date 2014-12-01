@@ -13,5 +13,7 @@
     <author href="https://irisdev.co/calendar_app" email="alejandro.santos@grupoiris.co">
 			Alejandro  St.
     </author>
-
+	
+	<access origin="*"/>
+	
 </widget>
