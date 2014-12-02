@@ -538,16 +538,18 @@ function init_calendar(){
 			CalEnd = view.end._d;
 			CalMes = view.intervalEnd._d;
 			
+			console.log('make this');
+			
 			var ini = view.start._d.format("isoUtcDateTime");
 			var end = view.end._d.format("isoUtcDateTime");
-			mw_getEvents(ini, end);
+		//	mw_getEvents(ini, end);
 			goo_getEvents(CalIni, CalEnd, CalMes);
 			fb_set_birthdates();
 		}
 	});
 	
 	fb_init();
-	goo_init();
+	//goo_init();
 }
 
 function loop_calendar(obj, dat, fre, tot){
@@ -992,18 +994,22 @@ function fb_get_user() {
 function fb_get_birthdates(fb_user){
 	if(!MOBILE){
 	
+		FB.api('/me/friends?fields=id,name,birthday&limit=5000', function(response) {
+			F_Friends = response.data;
+			fb_set_birthdates();
+		});
+		
+	}else{
 		openFB.api({
-			path: '/me/friends?fields=id,name,birthday&limit=5000'
+			path: '/v1.0/me/friends'
+			,params: {
+				'fields': 'id,name,birthday'
+				,'limit': '5000'
+			}
 			,success: function(response){
 				F_Friends = response.data;
 				fb_set_birthdates();
 			}
-		});
-		
-	}else{
-		FB.api('/me/friends?fields=id,name,birthday&limit=5000', function(response) {
-			F_Friends = response.data;
-			fb_set_birthdates();
 		});
 	}
 }
@@ -1110,8 +1116,8 @@ function fb_set_event(d, func)
 
 
 /*! WINDOWS LOGIN */
-	WL.Event.subscribe("auth.login", mw_onLogin);
-	
+//	WL.Event.subscribe("auth.login", mw_onLogin);
+/*	
 	WL.init({
 		client_id: '00000000401374AC',
 		redirect_uri: 'https://irisdev.co/calendar_app',
@@ -1122,7 +1128,7 @@ function fb_set_event(d, func)
 		name: "signin",
 		element: "signin"
 	});
-	
+*/	
 	function mw_onLogin (session) {
 		if (!session.error) {
 			WL.api({
