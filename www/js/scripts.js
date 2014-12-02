@@ -898,51 +898,70 @@ function gc_set_event(d, func)
 
 var F_Friends = Array();
 
-function statusChangeCallback(response) {
-	if (response.status === 'connected') {
-	  hasFB = true;
-	  fb_get_user();
-	  $('#fb-auth-btn').css('display', 'none');
-	} else {
-	  // The person is not logged into Facebook, so we're not sure if
-	  // they are logged into this app or not.
-	  $('#fb-auth-btn').css('display', 'block');
-	  document.getElementById('status').innerHTML = 'Please log ' + 'into Facebook.';
+if(!MOBILE){
+	function statusChangeCallback(response) {
+		if (response.status === 'connected') {
+		  hasFB = true;
+		  fb_get_user();
+		  $('#fb-auth-btn').css('display', 'none');
+		} else {
+		  // The person is not logged into Facebook, so we're not sure if
+		  // they are logged into this app or not.
+		  $('#fb-auth-btn').css('display', 'block');
+		  document.getElementById('status').innerHTML = 'Please log ' + 'into Facebook.';
+		}
 	}
+
+	// This function is called when someone finishes with the Login
+	// Button.  See the onlogin handler attached to it in the sample
+	// code below.
+	function fb_init() {
+		FB.getLoginStatus(function(response) {
+		  statusChangeCallback(response);
+		});
+	}
+
+	window.fbAsyncInit = function() {
+		  FB.init({
+			appId      : '326339840802808',
+			cookie     : true,  // enable cookies to allow the server to access 
+								// the session
+			xfbml      : true,  // parse social plugins on this page
+			version    : 'v1.0' // use version 2.1
+		  });
+
+		//  FB.getLoginStatus(function(response) {
+		//	statusChangeCallback(response);
+		//  });
+	};
+
+	// Load the SDK asynchronously
+	(function(d, s, id) {
+		var js, fjs = d.getElementsByTagName(s)[0];
+		if (d.getElementById(id)) return;
+		js = d.createElement(s); js.id = id;
+		js.src = "//connect.facebook.net/en_US/sdk.js";
+		fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));
+
+}else{
+	
+	$('.fbLoginMovil').css('display','block');
+	
+	function fb_login_movil(){
+		facebookConnectPlugin.login(['public_profile','user_friends','friends_birthday','ser_birthday','user_events','rsvp_event']
+		, function(){
+			$('.fbLoginMovil').css('display','none');
+			FB = facebookConnectPlugin;
+			fb_get_birthdates();
+			fb_get_events();
+		}
+		, function(){
+			//error
+		});
+	}
+	
 }
-
-// This function is called when someone finishes with the Login
-// Button.  See the onlogin handler attached to it in the sample
-// code below.
-function fb_init() {
-	FB.getLoginStatus(function(response) {
-	  statusChangeCallback(response);
-	});
-}
-
-window.fbAsyncInit = function() {
-	  FB.init({
-		appId      : '326339840802808',
-		cookie     : true,  // enable cookies to allow the server to access 
-							// the session
-		xfbml      : true,  // parse social plugins on this page
-		version    : 'v1.0' // use version 2.1
-	  });
-
-	//  FB.getLoginStatus(function(response) {
-	//	statusChangeCallback(response);
-	//  });
-};
-
-// Load the SDK asynchronously
-(function(d, s, id) {
-	var js, fjs = d.getElementsByTagName(s)[0];
-	if (d.getElementById(id)) return;
-	js = d.createElement(s); js.id = id;
-	js.src = "//connect.facebook.net/en_US/sdk.js";
-	fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));
-
 
 
 // Here we run a very simple test of the Graph API after login is
