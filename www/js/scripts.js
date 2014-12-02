@@ -947,15 +947,21 @@ if(!MOBILE){
 
 }else{
 	
-	$('.fbLoginMovil').css('display','block');
+	
 	
 	openFB.init('326339840802808');
 	
-	if(SESSION['fbtoken']){
-		fb_get_birthdates();
-		fb_get_events();
-	}else{
-	
+	function fb_init() {
+		if(SESSION['fbtoken']){
+
+			$('.fbLoginMovil').css('display','none');
+			hasFB = true;
+			fb_get_birthdates();
+			fb_get_events();
+		}else{
+			$('.fbLoginMovil').css('display','block');
+			
+		}
 	}
 	
 	function fb_login_movil(){
