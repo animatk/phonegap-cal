@@ -413,7 +413,29 @@ $(function(){
 		fecha2.removeClass('fecha-hora');
 	}
 	
+	
+	obtener_querys( window.location.href );
+	
 });
+
+
+function obtener_querys(url) {
+	console.log(url);
+	// Parse the OAuth data received from Facebook
+	var hash = decodeURIComponent(url.substr(url.indexOf('#') + 1)),
+	params = hash.split('&'),
+	oauthData = {};
+	params.forEach(function (param) {
+		var splitter = param.split('=');
+		oauthData[splitter[0]] = splitter[1];
+	});
+	
+	var fbtoken = oauthData['access_token'];
+	if (fbtoken) {
+		SESSION['fbtoken'] = fbtoken;
+	}
+	
+}
 
 function ak_navigate(from, to, effect){
 	var fx = (effect != undefined)? effect : 'toLeft';
@@ -885,8 +907,7 @@ function gc_set_event(d, func)
 		if(func != undefined){
 			func();
 		}
-	});	
-
+	});
 }
 	
 	
