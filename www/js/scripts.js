@@ -951,7 +951,7 @@ if(!MOBILE){
 	openFB.init('326339840802808');
 	
 	function fb_login_movil(){
-		openFB.login('public_profile,user_friends,friends_birthday,ser_birthday,user_events,rsvp_event'
+		openFB.login('public_profile,user_friends,friends_birthday,user_birthday,user_events,rsvp_event'
 		, function(){
 			$('.fbLoginMovil').css('display','none');
 			FB = openFB;
