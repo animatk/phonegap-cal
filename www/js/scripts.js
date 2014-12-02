@@ -948,6 +948,8 @@ if(!MOBILE){
 	
 	$('.fbLoginMovil').css('display','block');
 	
+	openFB.init('326339840802808');
+	
 	function fb_login_movil(){
 		openFB.login('public_profile,user_friends,friends_birthday,ser_birthday,user_events,rsvp_event'
 		, function(){
