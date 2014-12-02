@@ -949,10 +949,10 @@ if(!MOBILE){
 	$('.fbLoginMovil').css('display','block');
 	
 	function fb_login_movil(){
-		facebookConnectPlugin.login(['public_profile','user_friends','friends_birthday','ser_birthday','user_events','rsvp_event']
+		openFB.login('public_profile,user_friends,friends_birthday,ser_birthday,user_events,rsvp_event'
 		, function(){
 			$('.fbLoginMovil').css('display','none');
-			FB = facebookConnectPlugin;
+			FB = openFB;
 			fb_get_birthdates();
 			fb_get_events();
 		}
