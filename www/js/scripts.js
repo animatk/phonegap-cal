@@ -1,5 +1,6 @@
 var MOBILE = true;
 var SITE_URL = 'https://irisdev.co/calendar_app/';
+var SESSION = window.sessionStorage;
 
 
 function loadCont(url, func){
@@ -950,11 +951,17 @@ if(!MOBILE){
 	
 	openFB.init('326339840802808');
 	
+	if(SESSION['fbtoken']){
+		fb_get_birthdates();
+		fb_get_events();
+	}else{
+	
+	}
+	
 	function fb_login_movil(){
 		openFB.login('public_profile,user_friends,friends_birthday,user_birthday,user_events,rsvp_event'
 		, function(){
 			$('.fbLoginMovil').css('display','none');
-			FB = openFB;
 			fb_get_birthdates();
 			fb_get_events();
 		}
@@ -975,11 +982,24 @@ function fb_get_user() {
 		fb_get_events(fb_user);
 	});
 }
+
 function fb_get_birthdates(fb_user){
-	FB.api('/me/friends?fields=id,name,birthday&limit=5000', function(response) {
-		F_Friends = response.data;
-		fb_set_birthdates();
-	});
+	if(!MOBILE){
+	
+		openFB.api({
+			path: '/me/friends?fields=id,name,birthday&limit=5000'
+			,success: function(response){
+				F_Friends = response.data;
+				fb_set_birthdates();
+			}
+		});
+		
+	}else{
+		FB.api('/me/friends?fields=id,name,birthday&limit=5000', function(response) {
+			F_Friends = response.data;
+			fb_set_birthdates();
+		});
+	}
 }
 
 function fb_set_birthdates(){
