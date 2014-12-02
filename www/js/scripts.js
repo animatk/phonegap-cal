@@ -538,8 +538,6 @@ function init_calendar(){
 			CalEnd = view.end._d;
 			CalMes = view.intervalEnd._d;
 			
-			console.log('make this');
-			
 			var ini = view.start._d.format("isoUtcDateTime");
 			var end = view.end._d.format("isoUtcDateTime");
 		//	mw_getEvents(ini, end);
@@ -899,63 +897,13 @@ function gc_set_event(d, func)
 
 /*! FACEBOOK LOGIN */
 
-var F_Friends = Array();
+	var F_Friends = Array();
 
-if(!MOBILE){
-	function statusChangeCallback(response) {
-		if (response.status === 'connected') {
-		  hasFB = true;
-		  fb_get_user();
-		  $('#fb-auth-btn').css('display', 'none');
-		} else {
-		  // The person is not logged into Facebook, so we're not sure if
-		  // they are logged into this app or not.
-		  $('#fb-auth-btn').css('display', 'block');
-		  document.getElementById('status').innerHTML = 'Please log ' + 'into Facebook.';
-		}
-	}
-
-	// This function is called when someone finishes with the Login
-	// Button.  See the onlogin handler attached to it in the sample
-	// code below.
-	function fb_init() {
-		FB.getLoginStatus(function(response) {
-		  statusChangeCallback(response);
-		});
-	}
-
-	window.fbAsyncInit = function() {
-		  FB.init({
-			appId      : '326339840802808',
-			cookie     : true,  // enable cookies to allow the server to access 
-								// the session
-			xfbml      : true,  // parse social plugins on this page
-			version    : 'v1.0' // use version 2.1
-		  });
-
-		//  FB.getLoginStatus(function(response) {
-		//	statusChangeCallback(response);
-		//  });
-	};
-
-	// Load the SDK asynchronously
-	(function(d, s, id) {
-		var js, fjs = d.getElementsByTagName(s)[0];
-		if (d.getElementById(id)) return;
-		js = d.createElement(s); js.id = id;
-		js.src = "//connect.facebook.net/en_US/sdk.js";
-		fjs.parentNode.insertBefore(js, fjs);
-	}(document, 'script', 'facebook-jssdk'));
-
-}else{
-	
-	
-	
 	openFB.init('326339840802808');
 	
 	function fb_init() {
-		if(SESSION['fbtoken']){
-
+		if(SESSION['fbtoken'] && SESSION['fbtoken'] != "" ){
+		
 			$('.fbLoginMovil').css('display','none');
 			hasFB = true;
 			fb_get_birthdates();
@@ -966,52 +914,27 @@ if(!MOBILE){
 		}
 	}
 	
-	function fb_login_movil(){
-		openFB.login('public_profile,user_friends,friends_birthday,user_birthday,user_events,rsvp_event'
-		, function(){
-			$('.fbLoginMovil').css('display','none');
-			fb_get_birthdates();
-			fb_get_events();
-		}
-		, function(){
-			//error
-		});
+	function fb_login(){
+		openFB.login('public_profile,user_friends,friends_birthday,user_birthday,user_events,rsvp_event');
 	}
-	
-}
 
-
-// Here we run a very simple test of the Graph API after login is
-// successful.  See statusChangeCallback() for when this call is made.
-function fb_get_user() {
-	FB.api('/me', function(fb_user) {
-		document.getElementById('status').innerHTML = 'Logeado en Facebook como: ' + fb_user.name ;
-		fb_get_birthdates(fb_user);
-		fb_get_events(fb_user);
-	});
-}
 
 function fb_get_birthdates(fb_user){
-	if(!MOBILE){
-	
-		FB.api('/me/friends?fields=id,name,birthday&limit=5000', function(response) {
+	openFB.api({
+		path: '/v1.0/me/friends'
+		,params: {
+			'fields': 'id,name,birthday'
+			,'limit': '5000'
+		}
+		,success: function(response){
 			F_Friends = response.data;
 			fb_set_birthdates();
-		});
-		
-	}else{
-		openFB.api({
-			path: '/v1.0/me/friends'
-			,params: {
-				'fields': 'id,name,birthday'
-				,'limit': '5000'
-			}
-			,success: function(response){
-				F_Friends = response.data;
-				fb_set_birthdates();
-			}
-		});
-	}
+		}
+		,error: function(){
+			SESSION['fbtoken'] = "";
+			fb_init();
+		}
+	});
 }
 
 function fb_set_birthdates(){
@@ -1044,26 +967,35 @@ function fb_set_birthdates(){
 
 function fb_get_events(fb_user){
 	//solo muestra los eventos a los que asistira el usuario
-	FB.api('/me/events', function(response) {
-		var events = response.data;
-		var FB_Events = Array();
-		
-		for(i in events){
-			var ev = events[i];
-			var obj = {};
-			//
-			obj.id = 'fbe';
-			obj.title = ev.name;
-			obj.color = '#4c66a4';
-			obj.start = ev.start_time;
-			//
-			if( ev.end_time != undefined ){
-				obj.end = ev.end_time;
+	
+	openFB.api({
+		path: '/v1.0/me/events'
+		,params: {}
+		,success: function(response){
+			var events = response.data;
+			var FB_Events = Array();
+			
+			for(i in events){
+				var ev = events[i];
+				var obj = {};
+				//
+				obj.id = 'fbe';
+				obj.title = ev.name;
+				obj.color = '#4c66a4';
+				obj.start = ev.start_time;
+				//
+				if( ev.end_time != undefined ){
+					obj.end = ev.end_time;
+				}
+				FB_Events.push( obj );
 			}
-			FB_Events.push( obj );
+			
+			$('.Calendario').fullCalendar( 'addEventSource', FB_Events);
 		}
-		
-		$('.Calendario').fullCalendar( 'addEventSource', FB_Events);
+		,error: function(){
+			SESSION['fbtoken'] = "";
+			fb_init();
+		}
 	});
 	
 }

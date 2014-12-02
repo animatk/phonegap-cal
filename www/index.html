@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:fb="http://www.facebook.com/2008/fbml" xmlns:og="http://opengraphprotocol.org/schema/" />
+<html>
 <head>
 	<title> Calendar connect </title>
 	<meta charset="UTF-8">
@@ -8,7 +8,6 @@
 	<link href="css/style.css" rel="stylesheet" />
 </head>
 <body>
-<div id="fb-root"></div>
 <section class="Canvas">
 	<header>
 		<div class="container">
@@ -43,10 +42,10 @@
 				<span class="the-title"> Calendario </span>
 				<div class="row">
 					<div class="col-sm-6"> 
-						<a onclick="fb_login_movil();" style="display:none;" class="btn btn-primary fbLoginMovil"> login con Facebook </a>
+						<a onclick="fb_login();" style="display:none;" class="btn btn-primary fbLoginMovil"> login con Facebook </a>
+						
 						<button id="authorize-button" class="btn btn-danger" style="visibility: hidden"> Authorize Google Calendar </button>
 						<div id="GCalConn"></div>
-						<fb:login-button id="fb-auth-btn" scope="public_profile,user_friends,friends_birthday,user_birthday,user_events,rsvp_event" onlogin="fb_init();"></fb:login-button>
 						<div id="status"></div>
 						<div id="signin"></div>
 						<div id="info"></div>
