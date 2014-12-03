@@ -446,27 +446,25 @@ $(function(){
 		fecha1.removeClass('fecha-hora');
 		fecha2.removeClass('fecha-hora');
 		
+		if(SESSION['hasCode']){
+			$('html').append('<div id="cortina"></div>');
+		}
+		
 		loadCont( SITE_URL+'app?pedir=cookie&name=fbtoken', function(d){
 			if(d != ""){
 				fbcookie = $.parseJSON( d );
 				SESSION['fbtoken'] = fbcookie.ide;
+				//
+				if(SESSION['hasCode']){
+					$('#cortina').remove();
+					ak_navigate('#login', '#home');
+					init_calendar();
+				}
 			}
 		});
 	}
-	
-	if(SESSION['hasCode']){
-		$('html').append('<div id="cortina"></div>');
-	}
 });
 
-
-$(window).load(function(){
-	if(SESSION['hasCode']){
-		$('#cortina').remove();
-		ak_navigate('#login', '#home');
-		init_calendar();
-	}
-});
 
 function ak_navigate(from, to, effect){
 	var fx = (effect != undefined)? effect : 'toLeft';
@@ -969,6 +967,7 @@ function gc_set_event(d, func)
 	}
 	
 	function fb_login(){
+		$('.fbLoginMovil').text('Espere...').addClass('btn-default');
 		openFB.login('public_profile,user_friends,friends_birthday,user_birthday,user_events,rsvp_event');
 	}
 
