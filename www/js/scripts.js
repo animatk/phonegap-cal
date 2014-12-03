@@ -446,17 +446,27 @@ $(function(){
 		fecha1.removeClass('fecha-hora');
 		fecha2.removeClass('fecha-hora');
 		
-		loadCont(SITE_URL+'app?pedir=cookie&name=fbtoken', function(d){
+		loadCont( SITE_URL+'app?pedir=cookie&name=fbtoken', function(d){
 			if(d != ""){
 				fbcookie = $.parseJSON( d );
 				SESSION['fbtoken'] = fbcookie.ide;
 			}
 		});
 	}
+	
+	if(SESSION['hasCode']){
+		$('html').append('<div id="cortina"></div>');
+	}
 });
 
 
-
+$(window).load(function(){
+	if(SESSION['hasCode']){
+		$('#cortina').remove();
+		ak_navigate('#login', '#home');
+		init_calendar();
+	}
+});
 
 function ak_navigate(from, to, effect){
 	var fx = (effect != undefined)? effect : 'toLeft';
@@ -484,6 +494,7 @@ function form_login(form){
 				if(obj.success === false){
 					ak_showtip(  $(obj.selector), obj.msj );
 				}else{
+					SESSION['hasCode'] = 't';
 					ak_navigate('#login', '#home');
 					init_calendar();			
 				}
@@ -944,6 +955,7 @@ function gc_set_event(d, func)
 	openFB.init('326339840802808');
 	
 	function fb_init() {
+		console.log('it');
 		if(SESSION['fbtoken'] && SESSION['fbtoken'] != "" ){
 		
 			$('.fbLoginMovil').css('display','none');
