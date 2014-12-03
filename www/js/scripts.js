@@ -382,7 +382,6 @@ $(function(){
 	var fbcookie = $.parseJSON( getCookie('fbtoken') ); 
 	
 	if(fbcookie != null){
-		//
 		SESSION['fbtoken'] = fbcookie.ide;
 	}
 	
@@ -446,6 +445,13 @@ $(function(){
 		fecha2.attr('type', 'datetime-local');
 		fecha1.removeClass('fecha-hora');
 		fecha2.removeClass('fecha-hora');
+		
+		loadCont(SITE_URL+'app?pedir=cookie&name=fbtoken', function(d){
+			if(d != ""){
+				fbcookie = $.parseJSON( d );
+				SESSION['fbtoken'] = fbcookie.ide;
+			}
+		});
 	}
 });
 
