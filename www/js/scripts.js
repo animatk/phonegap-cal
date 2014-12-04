@@ -599,7 +599,7 @@ function init_calendar(){
 	});
 	
 	fb_init();
-	//goo_init();
+	goo_init();
 }
 
 function loop_calendar(obj, dat, fre, tot){
@@ -974,7 +974,7 @@ function gc_set_event(d, func)
 
 function fb_get_birthdates(fb_user){
 	openFB.api({
-		path: '/v1.0/me/friends'
+		path: '/me/friends'
 		,params: {
 			'fields': 'id,name,birthday'
 			,'limit': '5000'
@@ -1022,7 +1022,7 @@ function fb_get_events(fb_user){
 	//solo muestra los eventos a los que asistira el usuario
 	
 	openFB.api({
-		path: '/v1.0/me/events'
+		path: '/me/events'
 		,params: {}
 		,success: function(response){
 			var events = response.data;
