@@ -1,5 +1,5 @@
 var MOBILE = true;
-var SITE_URL = '//irisdev.co/calendar_app/';
+var SITE_URL = 'https://irisdev.co/calendar_app/';
 var SESSION = window.localStorage;
 
 
