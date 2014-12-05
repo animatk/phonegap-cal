@@ -1,6 +1,6 @@
 var MOBILE = true;
-var SITE_URL = 'https://irisdev.co/calendar_app/';
-var SESSION = window.sessionStorage;
+var SITE_URL = '//irisdev.co/calendar_app/';
+var SESSION = window.localStorage;
 
 
 function loadCont(url, func){
@@ -450,10 +450,17 @@ $(function(){
 			$('html').append('<div id="cortina"></div>');
 		}
 		
-		loadCont( SITE_URL+'app?pedir=cookie&name=fbtoken', function(d){
+		loadCont( SITE_URL+'app?pedir=cookie', function(d){
 			if(d != ""){
-				fbcookie = $.parseJSON( d );
-				SESSION['fbtoken'] = fbcookie.ide;
+				var d = $.parseJSON( d );
+				
+				if(d.fbtoken != undefined){
+					SESSION['fbtoken'] = d.fbtoken.ide;
+				}
+				
+				if(d.gctoken != undefined){
+					SESSION['gctoken'] = d.gctoken.ide;
+				}
 				//
 				if(SESSION['hasCode']){
 					$('#cortina').remove();
@@ -739,73 +746,62 @@ function monthDiff(d1, d2) {
 
 /*! GOOGLE API */
 	//constante de eventos de google
-	var G_Events = Array();
-
-	var clientId = '575669402911-5nabcf0k5qubc6ps2shbsi2uav3r5cid.apps.googleusercontent.com';
-	// Enter the API key from the Google Develoepr Console - to handle any unauthenticated
-	// requests in the code.
-	// The provided key works for this sample only when run from
-	// https://google-api-javascript-client.googlecode.com/hg/samples/authSample.html
-	// To use in your own application, replace this API key with your own.
-	var apiKey = 'AIzaSyCjSbIzogs1Row6dYqBmgR-NV6Kh32avOA';
-
-	// To enter one or more authentication scopes, refer to the documentation for the API.
-	var scopes = 'https://www.googleapis.com/auth/calendar';
+	var G_Events = Array(),
+	clientId = '575669402911-5nabcf0k5qubc6ps2shbsi2uav3r5cid.apps.googleusercontent.com',
+	apiKey = 'AIzaSyCjSbIzogs1Row6dYqBmgR-NV6Kh32avOA',
+	goo_api_url = 'https://www.googleapis.com/',
+	scopes = 'https://www.googleapis.com/auth/calendar';
 
 	// Use a button to handle authentication the first time.
 	function goo_init() {
-		gapi.client.setApiKey(apiKey);
-		window.setTimeout(goo_check, 1);
-	}
-
-	function goo_check() {
-		gapi.auth.authorize({client_id: clientId, scope: scopes, immediate: true}, goo_result);
-	}
-	  
-	function goo_result(authResult) {
-		var authorizeButton = document.getElementById('authorize-button');
-		if (authResult && !authResult.error) {
-			$('#GCalConn').html('Esta conectado con Google Calendar.');
-			authorizeButton.style.visibility = 'hidden';
+		if(SESSION['gctoken'] && SESSION['gctoken'] != "" ){
+			$('.gcLogin').css('display','none');
+			gctoken = SESSION['gctoken'];
 			hasGC = true;
 			goo_call();
-		} else {
-			
-			authorizeButton.style.visibility = '';
-			authorizeButton.onclick = goo_login;
+		}else{
+			$('.gcLogin').css('display','block');
 		}
 	}
-
-	function goo_login(event) {
-        gapi.auth.authorize({client_id: clientId, scope: scopes, immediate: false}, goo_result);
+	
+	function goo_login() {
+		openLog.login({
+			url: 'https://accounts.google.com/o/oauth2/auth'
+			,path: ''
+			,query: {
+				client_id: "575669402911-5nabcf0k5qubc6ps2shbsi2uav3r5cid.apps.googleusercontent.com"
+				,scope: "https://www.googleapis.com/auth/calendar"
+				,immediate: false
+				,include_granted_scopes: true
+				,proxy: "oauth2relay753833450"
+				,redirect_uri: "https://irisdev.co/calendar_app/opengc.html"
+				,origin: "https://irisdev.co"
+				,response_type: "token"
+				,state: "557500042%7C0.3630815089"
+				,authuser: "0"
+			}
+		});
         return false;
 	}
 
       // Load the API and make an API call.  Display the results on the screen.
 	function goo_call() {
-	  
-        gapi.client.load('calendar', 'v3', function() {
-
-			var restRequest = gapi.client.request({
-			  'path': 'calendar/v3/users/me/calendarList'
-			//  , 'params': {'query': 'Google+', 'orderBy': 'best'}
-			});
-			
-			restRequest.then(function(resp) {
-				//temporar obtiene el primer calendario y lo pinta en el calendario del front
-				var  G_Cal = resp.result.items[0];
-				gapi.client.request({
-				  'path': 'calendar/v3/calendars/'+G_Cal.id+'/events'
-				}).then(function(resp) {
-					G_Events = resp.result.items;
-					goo_getEvents();
-				});
-			  
-			}, function(reason) {
-			//
-			});
-			
-       });
+		openLog.api({
+			url: goo_api_url
+			,path:'calendar/v3/calendars/primary/events'
+			,query:{
+				key: apiKey
+				,access_token: gctoken
+			}
+			,success: function(resp){						
+				G_Events = resp.items;
+				goo_getEvents();
+			}
+			,error: function(){
+				SESSION['gctoken'] = "";
+				goo_init();
+			}
+		});
     }
 	
 	function goo_getEvents(dateIni, dateEnd, dateMes){
@@ -818,6 +814,8 @@ function monthDiff(d1, d2) {
 		if(dateMes == undefined){
 			dateMes = CalMes;
 		}
+		
+		console.log(G_Events);
 		
 		var G_Cal_Events = Array();
 		for(i in G_Events){
@@ -926,7 +924,7 @@ function gc_set_event(d, func)
 	
 	query.visibility = EventPrivacy;
 
-	var request = gapi.client.calendar.events.insert({
+/*	var request = gapi.client.calendar.events.insert({
 	  'calendarId': 'primary',
 	  'resource': query
 	});
@@ -936,6 +934,29 @@ function gc_set_event(d, func)
 		
 		if(func != undefined){
 			func();
+		}
+	});
+*/		
+	openLog.api({
+		url: goo_api_url
+		,method: 'POST'
+		,path:'calendar/v3/calendars/primary/events'
+		,query:{
+			key: apiKey
+			,access_token: gctoken
+		}
+		,params: query
+		,success: function(resp){						
+			$('.Calendario').fullCalendar( 'removeEvents', 'gc');
+			goo_call();
+			
+			if(func != undefined){
+				func();
+			}
+		}
+		,error: function(){
+			SESSION['gctoken'] = "";
+			goo_init();
 		}
 	});
 }
@@ -948,36 +969,48 @@ function gc_set_event(d, func)
 
 /*! FACEBOOK LOGIN */
 
-	var F_Friends = Array();
-
-	openFB.init('326339840802808');
+	var F_Friends = Array(),
+	fbtoken = "",
+	FB_api_url = 'https://graph.facebook.com/v1.0';
 	
 	function fb_init() {
-		console.log('it');
 		if(SESSION['fbtoken'] && SESSION['fbtoken'] != "" ){
-		
-			$('.fbLoginMovil').css('display','none');
+			$('.fbLogin').css('display','none');
+			fbtoken = SESSION['fbtoken'];
 			hasFB = true;
 			fb_get_birthdates();
 			fb_get_events();
 		}else{
-			$('.fbLoginMovil').css('display','block');
+			$('.fbLogin').css('display','block');
 			
 		}
 	}
 	
 	function fb_login(){
-		$('.fbLoginMovil').text('Espere...').addClass('btn-default');
-		openFB.login('public_profile,user_friends,friends_birthday,user_birthday,user_events,rsvp_event');
+		$('.fbLogin').text('Espere...').addClass('btn-default');
+		openLog.login({
+			url: 'https://www.facebook.com/dialog/oauth'
+			,path: ''
+			,query: {
+				client_id : '326339840802808'
+				,redirect_uri : 'https://irisdev.co/calendar_app/openfb.html'
+				,response_type : 'token'
+				,display : 'popup'
+				,scope : 'public_profile,user_friends,friends_birthday,user_birthday,user_events,rsvp_event'
+			}
+		
+		});
 	}
 
 
 function fb_get_birthdates(fb_user){
-	openFB.api({
-		path: '/me/friends'
-		,params: {
+	openLog.api({
+		url: FB_api_url
+		,path: '/me/friends'
+		,query: {
 			'fields': 'id,name,birthday'
 			,'limit': '5000'
+			, access_token : fbtoken
 		}
 		,success: function(response){
 			F_Friends = response.data;
@@ -1021,9 +1054,12 @@ function fb_set_birthdates(){
 function fb_get_events(fb_user){
 	//solo muestra los eventos a los que asistira el usuario
 	
-	openFB.api({
-		path: '/me/events'
-		,params: {}
+	openLog.api({
+		url: FB_api_url
+		,path: '/me/events'
+		,query: {
+			access_token : fbtoken
+		}
 		,success: function(response){
 			var events = response.data;
 			var FB_Events = Array();
@@ -1084,15 +1120,21 @@ function fb_set_event(d, func)
 	if(d.EventPrivacy == 3){
 		EventPrivacy = 'FRIENDS';
 	}
-	
+	query.access_token = fbtoken;
 	query.privacy_type = EventPrivacy;
 
-	FB.api('/me/events', 'POST', query, function(response) {
-		$('.Calendario').fullCalendar( 'removeEvents', 'fbe');
-		fb_get_events();
-		
-		if(func != undefined){
-			func();
+	openLog.api({
+		url: FB_api_url
+		,path: '/me/events'
+		,method: 'POST'
+		,query: query
+		,success : function(response) {
+			$('.Calendario').fullCalendar( 'removeEvents', 'fbe');
+			fb_get_events();
+			
+			if(func != undefined){
+				func();
+			}
 		}
 	});
 }

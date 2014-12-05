@@ -16,7 +16,7 @@
 					<div class="logo"> 
 						<div class="btn-group">
 							<a href="#!" onclick="ak_navigate('#home', '#login');" class="btn btn-primary"> to Login </a>
-							<a href="#!" onclick="ak_navigate('#login', '#home', 'toRight');" class="btn btn-primary"> to Main </a>
+							<a href="#!" onclick="ak_navigate('#login', '#home', 'toRight');" class="btn btn-primary"> to Main </a> EEE
 						</div>
 					</div>
 				</div>
@@ -42,13 +42,9 @@
 				<span class="the-title"> Calendario </span>
 				<div class="row">
 					<div class="col-sm-6"> 
-						<a onclick="fb_login();" style="display:none;" class="btn btn-primary fbLoginMovil"> login con Facebook </a>
+						<a onclick="fb_login();" style="display:none;" class="btn btn-primary fbLogin"> Login con Facebook </a>
+						<a onclick="goo_login();" style="display:none;" class="btn btn-danger gcLogin"> Login con Google </a>
 						
-						<button id="authorize-button" class="btn btn-danger" style="visibility: hidden"> Authorize Google Calendar </button>
-						<div id="GCalConn"></div>
-						<div id="status"></div>
-						<div id="signin"></div>
-						<div id="info"></div>
 					</div>
 					<div class="col-sm-6">
 						<div class="Calendario"></div>
@@ -61,8 +57,9 @@
 
 <script src="cordova.js"></script>
 <script src="js/jquery-1.10.1.min.js" type="text/javascript"></script>
+
 <!--
-<script src="https://apis.google.com/js/client.js" type="text/javascript"></script>	
+<script src="https://apis.google.com/js/client.js" type="text/javascript"></script>
 <script src="//js.live.net/v5.0/wl.js" type="text/javascript"></script>
 -->
 <script src="js/scripts.js" type="text/javascript"></script>
