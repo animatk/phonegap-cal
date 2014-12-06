@@ -804,10 +804,16 @@ function monthDiff(d1, d2) {
 				}
 			});
 		}else{	
-			loadCont( SITE_URL+'app?pedir=goo_events&k='+apiKey+'&a='+gctoken , function(resp){
+			loadCont( SITE_URL+'app?pedir=goo_events&k='+apiKey+'&a='+gctoken 
+			,function(resp){
 				var resp = JSON.parse(resp);
-				G_Events = resp.items;
-				goo_getEvents();
+				if(resp && !resp.error){
+					G_Events = resp.items;
+					goo_getEvents();
+				}else{
+					SESSION['gctoken'] = "";
+					goo_init();
+				}
 			});
 		}
     }
@@ -822,8 +828,6 @@ function monthDiff(d1, d2) {
 		if(dateMes == undefined){
 			dateMes = CalMes;
 		}
-		
-		console.log(G_Events);
 		
 		var G_Cal_Events = Array();
 		for(i in G_Events){
