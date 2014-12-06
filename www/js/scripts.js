@@ -786,22 +786,30 @@ function monthDiff(d1, d2) {
 
       // Load the API and make an API call.  Display the results on the screen.
 	function goo_call() {
-		openLog.api({
-			url: goo_api_url
-			,path:'calendar/v3/calendars/primary/events'
-			,query:{
-				key: apiKey
-				,access_token: gctoken
-			}
-			,success: function(resp){						
+		if(!MOBILE){
+			openLog.api({
+				url: goo_api_url
+				,path:'calendar/v3/calendars/primary/events'
+				,query:{
+					key: apiKey
+					,access_token: gctoken
+				}
+				,success: function(resp){						
+					G_Events = resp.items;
+					goo_getEvents();
+				}
+				,error: function(){
+					SESSION['gctoken'] = "";
+					goo_init();
+				}
+			});
+		}else{	
+			loadCont( SITE_URL+'app?pedir=goo_events&k='+apiKey+'&a='+gctoken , function(resp){
+				var resp = JSON.parse(resp);
 				G_Events = resp.items;
 				goo_getEvents();
-			}
-			,error: function(){
-				SESSION['gctoken'] = "";
-				goo_init();
-			}
-		});
+			});
+		}
     }
 	
 	function goo_getEvents(dateIni, dateEnd, dateMes){
