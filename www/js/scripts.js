@@ -447,7 +447,7 @@ $(function(){
 		fecha2.removeClass('fecha-hora');
 		
 		if(SESSION['hasCode']){
-			$('html').append('<div id="cortina"></div>');
+			$('html').prepend('<div id="cortina"></div>');
 		}
 		
 		loadCont( SITE_URL+'app?pedir=cookie', function(d){
@@ -460,6 +460,9 @@ $(function(){
 				
 				if(d.gctoken != undefined){
 					SESSION['gctoken'] = d.gctoken.ide;
+				}
+				if(d.mwtoken != undefined){
+					SESSION['mwtoken'] = d.mwtoken.ide;
 				}
 				//
 				if(SESSION['hasCode']){
@@ -599,14 +602,21 @@ function init_calendar(){
 			
 			var ini = view.start._d.format("isoUtcDateTime");
 			var end = view.end._d.format("isoUtcDateTime");
-		//	mw_getEvents(ini, end);
-			goo_getEvents(CalIni, CalEnd, CalMes);
-			fb_set_birthdates();
+			if(hasMW){
+				mw_getEvents(ini, end);
+			}
+			if(hasGC){
+				goo_getEvents(CalIni, CalEnd, CalMes);
+			}
+			if(hasFB){
+				fb_set_birthdates();
+			}
 		}
 	});
 	
 	fb_init();
 	goo_init();
+	mw_init();
 }
 
 function loop_calendar(obj, dat, fre, tot){
@@ -761,6 +771,7 @@ function monthDiff(d1, d2) {
 			goo_call();
 		}else{
 			$('.gcLogin').css('display','block');
+			hasGC = false;
 		}
 	}
 	
@@ -800,6 +811,7 @@ function monthDiff(d1, d2) {
 				}
 				,error: function(){
 					SESSION['gctoken'] = "";
+					hasGC = false;
 					goo_init();
 				}
 			});
@@ -812,6 +824,7 @@ function monthDiff(d1, d2) {
 					goo_getEvents();
 				}else{
 					SESSION['gctoken'] = "";
+					hasGC = false;
 					goo_init();
 				}
 			});
@@ -994,6 +1007,7 @@ function gc_set_event(d, func)
 			fb_get_events();
 		}else{
 			$('.fbLogin').css('display','block');
+			hasFB = false;
 			
 		}
 	}
@@ -1030,6 +1044,7 @@ function fb_get_birthdates(fb_user){
 		}
 		,error: function(){
 			SESSION['fbtoken'] = "";
+			hasFB = false;
 			fb_init();
 		}
 	});
@@ -1095,6 +1110,7 @@ function fb_get_events(fb_user){
 		}
 		,error: function(){
 			SESSION['fbtoken'] = "";
+			hasFB = false;
 			fb_init();
 		}
 	});
@@ -1155,42 +1171,41 @@ function fb_set_event(d, func)
 
 
 /*! WINDOWS LOGIN */
-//	WL.Event.subscribe("auth.login", mw_onLogin);
-/*	
-	WL.init({
-		client_id: '00000000401374AC',
-		redirect_uri: 'https://irisdev.co/calendar_app',
-		scope: "wl.signin wl.calendars wl.calendars wl.contacts_calendars wl.events_create wl.calendars_update",
-		response_type: "token"
-	});
-	WL.ui({
-		name: "signin",
-		element: "signin"
-	});
-*/	
-	function mw_onLogin (session) {
-		if (!session.error) {
-			WL.api({
-				path: "me",
-				method: "GET"
-			}).then(
-				function (response) {
-					document.getElementById("info").innerText = "Hello, " + response.first_name + " " + response.last_name + "!";
-					hasMW = true;
-					mw_getEvents();
-				},
-				function (responseFailed) {
-					document.getElementById("info").innerText = "Error: " + responseFailed.error.message;
-				}
-			);
-		}
-		else {
-			document.getElementById("info").innerText = "Error: " + session.error_description;
+	var mw_api_url = 'https://apis.live.net/v5.0',
+	mwtoken ="";
+
+	function mw_init(){
+		if( SESSION['mwtoken'] && SESSION['mwtoken'] != "" ){
+			$('.mwLogin').css('display','none');
+			mwtoken = SESSION['mwtoken'];
+			hasMW = true;
+			mw_getEvents();
+		}else{
+			$('.mwLogin').css('display','block');
+			hasMW = false;
 		}
 	}
 	
+	function mw_login(){
+		$('.mwLogin').text('Espere...');
+		//
+		openLog.login({
+			url: 'https://login.live.com/oauth20_authorize.srf'
+			,path: ''
+			,query: {
+				client_id:'00000000401374AC'
+				,display:'page'
+				,locale:'es'
+				,redirect_uri:'https://irisdev.co/calendar_app/openmw.html'
+				,response_type:'token'
+				,scope:'wl.signin wl.calendars wl.calendars wl.contacts_calendars wl.events_create wl.calendars_update'
+				,state:'redirect_type=auth&display=page&request_ts=1418135617739&response_method=url&secure_cookie=false'
+			}
+		
+		});
+	}
+
 	//wl.calendars
-	
 	function mw_getEvents(dateIni, dateEnd){
 		
 		if(dateIni == undefined){
@@ -1199,38 +1214,51 @@ function fb_set_event(d, func)
 		if(dateEnd == undefined){
 			dateEnd = '';
 		}
-	
-		WL.api({
-		//	path: "me/calendars",
-			path: 'me/events?start_time='+dateIni+'&end_time='+dateEnd,
-			method: "GET"
-		}).then(
-			function (response) {
-				var events = response.data;
-				var mw_Events = Array();
-				
-				for(i in events){
-					var ev = events[i];
-					var obj = {};
-					//
-					obj.id = 'mw';
-					obj.title = ev.name;
-					obj.color = '#0072C6';
-					obj.start = ev.start_time;
-					//
-					if( ev.end_time != undefined ){
-						obj.end = ev.end_time;
-					}
-					mw_Events.push( obj );
-				}
-				
-				$('.Calendario').fullCalendar( 'addEventSource', mw_Events);
-				
-			},
-			function (responseFailed) {
-				document.getElementById("info").innerText ="Error: " + responseFailed.error.message;
+
+		openLog.api({
+			url: mw_api_url
+			,path: '/me/events'
+			,jsonp: true
+			,query: {
+				start_time: dateIni
+				,end_time: dateEnd
+				,method: 'GET'
+				,interface_method: undefined
+				,pretty: false
+				,return_ssl_resources: true
+				,x_http_live_library: 'Web/chrome_5.5'
+				,access_token: mwtoken
 			}
-		);
+			,success: function(response){
+			
+				if(response.error != undefined){
+					SESSION['mwtoken'] = "";
+					hasMW = false;
+					mw_init();
+				}else{
+					var events = response.data;
+					var mw_Events = Array();
+					
+					for(i in events){
+						var ev = events[i];
+						var obj = {};
+						//
+						obj.id = 'mw';
+						obj.title = ev.name;
+						obj.color = '#0072C6';
+						obj.start = ev.start_time;
+						//
+						if( ev.end_time != undefined ){
+							obj.end = ev.end_time;
+						}
+						mw_Events.push( obj );
+					}
+					
+					$('.Calendario').fullCalendar( 'addEventSource', mw_Events);
+				
+				}
+			}
+		});
 	}
 	
 function wm_set_event(d, func)
@@ -1250,22 +1278,28 @@ function wm_set_event(d, func)
 	}
 	
 	query.visibility = EventPrivacy;
+
+	query.method = 'POST';
+	query.interface_method= undefined;
+	query.pretty = false;
+	query.return_ssl_resources = true;
+	query.x_http_live_library = 'Web/chrome_5.5';
+	query.access_token = mwtoken;
 	
-	WL.api({
-		path: "me/events",
-		method: "POST",
-		body: query
-	}).then(
-		function (response) {
+	openLog.api({
+		url: mw_api_url
+		,path: '/me/events'
+		,jsonp: true
+		,query: query
+		,success: function(response){
 			$('.Calendario').fullCalendar( 'removeEvents', 'mw');
 			mw_getEvents( date_format(CalIni, 'tz'), date_format(CalEnd, 'tz'));
 			if(func != undefined){
 				func();
 			}
-		},
-		function (responseFailed) {
-			//
-		});
+			
+		}
+	});
 }
 	
 /*! END WINDOWS LOGIN */
