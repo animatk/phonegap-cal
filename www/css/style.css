@@ -291,6 +291,12 @@ header a{
 }
 
 /* SECCION DEL LISTADO DE MESES */
+
+#listaMeses .col-sm-6{
+	padding-left: 0;
+	padding-right: 0;
+}
+
 #home .Main{padding-bottom:0; padding-top: 55px; }
 
 .mes-cont,
@@ -349,7 +355,7 @@ header a{
 	text-align: right;
 	padding: 12px;
 }
-.mes-titl{font-size: 18px;}
+.mes-titl{font-size: 25px;}
 .mes-desc{font-size: 12px;}
 
 .mes-deta-sub{
@@ -369,8 +375,15 @@ header a{
 /* applicacion */
 
 #home{background: rgba(255,255,255,0.45);}
-#login{background: #282829;}
+#login,
+#calendario,
 #video{background: #282829;}
+#imagen{
+	background: #282829;
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+}
 
 .Page {
    top: 0; 

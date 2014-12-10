@@ -575,8 +575,8 @@ function listarMeses(){
 		var obj = data[i];
 		var actual = (mesActual == i)? 'activo': "";
 		var out_ini = '<div class="col-sm-6 col-md-4"><div class="mes-cont '+actual+'">';
-		var out_foto = '<div class="mes-foto" style="background-image: url(img/meses/'+i+'.jpg);"><div class="foto-sup"><img src="img/cal-verimagen.png" alt="Ver Imagen" /></div></div>';
-		var out_deta = '<div class="mes-deta"><div class="mes-deta-info"><div class="mes-deta-int"><div class="mes-titl">'+obj.mes+'</div><div class="mes-desc">'+obj.desc+'</div></div></div><div class="mes-deta-sub"><span class="mes-deta-ver"><img src="img/cal-vercal.png" alt="Ver Calendario" /></span></div></div>';
+		var out_foto = '<div class="mes-foto" onclick="loadCalImage('+i+');" style="background-image: url(img/meses/'+i+'.jpg);"><div class="foto-sup"><img src="img/cal-verimagen.png" alt="Ver Imagen" /></div></div>';
+		var out_deta = '<div class="mes-deta"><div class="mes-deta-info"><div class="mes-deta-int"><div class="mes-titl">'+obj.mes+'</div><div class="mes-desc">'+obj.desc+'</div></div></div><div class="mes-deta-sub"><span class="mes-deta-ver" onclick="loadCalMes('+i+');"><img src="img/cal-vercal.png" alt="Ver Calendario" /></span></div></div>';
 		
 		output += out_ini;
 		
@@ -590,6 +590,37 @@ function listarMeses(){
 	}
 	
 	listaMeses.html(output);
+}
+
+function loadCalImage(n){
+	var contImage = $('#imagen');
+	contImage.css('background-image', 'url(img/meses/'+n+'.jpg)');
+	ak_navigate('#home', '#imagen');
+	btnIzq({
+		text : 'Volver'
+		,from : '#imagen'
+		,to : '#home'
+		,fx : 'toRight'
+	});
+}
+function loadCalMes(n){
+	ak_navigate('#home', '#calendario');
+	
+	btnIzq({
+		text : 'Volver'
+		,from : '#calendario'
+		,to : '#home'
+		,fx : 'toRight'
+	});
+}
+
+function btnIzq(obj){
+	var btmI = $('#btnIzquierdo'),
+	effect = (obj.fx)? ", '"+obj.fx+"'" : "";
+	btmI.html(obj.text);
+	btmI.attr('onclick', "ak_navigate('"+obj.from+"', '"+obj.to+"' "+effect+"); $('#btnIzquierdo').addClass('oculto')");
+	btmI.removeClass('oculto');
+
 }
 
 
