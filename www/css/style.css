@@ -99,7 +99,7 @@ header{
 	width: 100%;
 	z-index: 999;
 	position: fixed;
-	background-color: rgba(60, 60, 60, 0.6);;
+	background-color: #282829;
 	box-shadow: 0 10px 10px rgba(0,0,0,.2);
 	padding-top: 5px;
 	padding-bottom: 5px;

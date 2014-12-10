@@ -489,7 +489,7 @@ $(function(){
 $(window).load(function(){
 	//PRIMERO CARGA EL VIDEO DESDE (YT) API
 	var vidId = 'rcs7GR1YzPE';
-	$('#video-frame').html('<iframe id="playerFrame" width="100%" height="100%" src="https://www.youtube.com/embed/' + vidId + '?modestbranding=1&enablejsapi=1&autoplay=0&showinfo=0&fs=0&rel=0&controls=0&html5=1&watermark=0" frameborder="0"></iframe>');
+	$('#video-frame').html('<iframe id="playerFrame" width="100%" height="100%" src="https://www.youtube.com/embed/' + vidId + '?modestbranding=1&enablejsapi=1&autoplay=0&fs=0&rel=0&controls=0&html5=1&watermark=0" frameborder="0"></iframe>');
 	
 	YTPlayer = new YT.Player('playerFrame', {
 		events: {
