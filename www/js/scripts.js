@@ -535,6 +535,7 @@ function ocultarVideo(){
 	}
 	
 	btnVideo.addClass('oculto');
+	listarMeses();
 }
 
 function ak_navigate(from, to, effect){
@@ -543,6 +544,52 @@ function ak_navigate(from, to, effect){
 	$( to ).removeClass('toCenter toLeft toRight');
 	$(from).addClass(fx);
 	$( to ).addClass('toCenter');
+}
+
+
+function listarMeses(){
+	
+	var data = [
+		{mes:"Enero", desc:"Ford Mustang Modelo 2014"}
+		,{mes:"Febrero", desc:"Ford Mustang Modelo 2014"}
+		,{mes:"Marzo", desc:"Ford Mustang Modelo 2014"}
+		,{mes:"Abril", desc:"Ford Mustang Modelo 2014"}
+		,{mes:"Mayo", desc:"Ford Mustang Modelo 2014"}
+		,{mes:"Junio", desc:"Ford Mustang Modelo 2014"}
+		,{mes:"Julio", desc:"Ford Mustang Modelo 2014"}
+		,{mes:"Agosto", desc:"Ford Mustang Modelo 2014"}
+		,{mes:"Septiembre", desc:"Ford Mustang Modelo 2014"}
+		,{mes:"Octubre", desc:"Ford Mustang Modelo 2014"}
+		,{mes:"Noviembre", desc:"Ford Mustang Modelo 2014"}
+		,{mes:"Diciembre", desc:"Ford Mustang Modelo 2014"}
+	];
+	
+
+	var listaMeses = $('#listaMeses');
+	var output = "";
+	var out_fin = '</div></div>';
+	var mesActual = new Date().getMonth();
+	listaMeses.html("");
+	
+	for(i in data){
+		var obj = data[i];
+		var actual = (mesActual == i)? 'activo': "";
+		var out_ini = '<div class="col-sm-6 col-md-4"><div class="mes-cont '+actual+'">';
+		var out_foto = '<div class="mes-foto" style="background-image: url(img/meses/'+i+'.jpg);"><div class="foto-sup"><img src="img/cal-verimagen.png" alt="Ver Imagen" /></div></div>';
+		var out_deta = '<div class="mes-deta"><div class="mes-deta-info"><div class="mes-deta-int"><div class="mes-titl">'+obj.mes+'</div><div class="mes-desc">'+obj.desc+'</div></div></div><div class="mes-deta-sub"><span class="mes-deta-ver"><img src="img/cal-vercal.png" alt="Ver Calendario" /></span></div></div>';
+		
+		output += out_ini;
+		
+		if(i%2==0){
+			output += out_foto+out_deta;
+		}else{
+			output += out_deta+out_foto;
+		}
+		
+		output += out_fin;
+	}
+	
+	listaMeses.html(output);
 }
 
 
