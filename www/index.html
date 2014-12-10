@@ -9,21 +9,31 @@
 </head>
 <body>
 <section class="Canvas">
-<!--	<header>
+	<header>
 		<div class="container">
 			<div class="row">
-				<div class="col-sm-4"> 
+				<div class="col-xs-3">
+					<div class="hea-opts"> 
+						<a href="#!" onclick="ak_navigate('#home', '#login');" class="btn oculto"> to Login </a>
+					</div>
+				</div>
+				<div class="col-xs-6"> 
 					<div class="logo"> 
-						<div class="btn-group">
-							<a href="#!" onclick="ak_navigate('#home', '#login');" class="btn btn-primary"> to Login </a>
-							<a href="#!" onclick="ak_navigate('#login', '#home', 'toRight');" class="btn btn-primary"> to Main </a> EEE
-						</div>
+						<img src="img/cal-mus-logo.png" alt="Calendario Mustang" />
+					</div>
+				</div>
+				<div class="col-xs-3">
+					<div class="hea-opts">
+						<a id="btnSaltarVideo" href="#!" onclick="ocultarVideo();" class="btn"> Saltar </a>
 					</div>
 				</div>
 			</div>
 		</div>
-	</header>-->
-	<section id="login" class="Page toCenter">
+	</header>
+	<section id="video" class="Page toCenter">
+		<!--video-->
+	</section>
+	<section id="login" class="Page">
 		<div class="Main">
 			<div class="container">
 				<form action="" onsubmit="return form_login( this ); return false;">

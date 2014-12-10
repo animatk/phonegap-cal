@@ -372,15 +372,16 @@ var  _DataTablesSpanish = {
 		"sSortDescending": ": Activar para ordenar la columna de manera descendente"
 	}
 };
-		
+
+	
 $(function(){
+
 	$('.input-group-addon').click(function(){
 		$input = $(this).parent().find('input, select');
 		ak_showtip( $input, $input.attr('placeholder'));
 	});
-	
+
 	var fbcookie = $.parseJSON( getCookie('fbtoken') ); 
-	
 	if(fbcookie != null){
 		SESSION['fbtoken'] = fbcookie.ide;
 	}
@@ -447,34 +448,86 @@ $(function(){
 		fecha2.removeClass('fecha-hora');
 		
 		if(SESSION['hasCode']){
-			$('html').prepend('<div id="cortina"></div>');
+	//		$('html').prepend('<div id="cortina"></div>');
 		}
-		
-		loadCont( SITE_URL+'app?pedir=cookie', function(d){
-			if(d != ""){
-				var d = $.parseJSON( d );
-				
-				if(d.fbtoken != undefined){
-					SESSION['fbtoken'] = d.fbtoken.ide;
-				}
-				
-				if(d.gctoken != undefined){
-					SESSION['gctoken'] = d.gctoken.ide;
-				}
-				if(d.mwtoken != undefined){
-					SESSION['mwtoken'] = d.mwtoken.ide;
-				}
-				//
-				if(SESSION['hasCode']){
-					$('#cortina').remove();
-					ak_navigate('#login', '#home');
-					init_calendar();
+
+		openLog.api({
+			 url: SITE_URL
+			,path: 'app'
+			,jsonp: true
+			,query: {
+				pedir: 'cookie'
+			}
+			,success: function(d){					
+				if(d){
+					
+					if(d.fbtoken != undefined){
+						SESSION['fbtoken'] = d.fbtoken.ide;
+					}
+					
+					if(d.gctoken != undefined){
+						SESSION['gctoken'] = d.gctoken.ide;
+					}
+					if(d.mwtoken != undefined){
+						SESSION['mwtoken'] = d.mwtoken.ide;
+					}
+					//
+					if(SESSION['hasCode']){
+			//			$('#cortina').remove();
+			//			ak_navigate('#login', '#home');
+			//			init_calendar();
+					}
 				}
 			}
 		});
 	}
 });
 
+$(window).load(function(){
+	//PRIMERO CARGA EL VIDEO DESDE (YT) API
+	var vidId = 'rcs7GR1YzPE';
+	$('#video').html('<iframe id="playerFrame" width="100%" height="100%" src="https://www.youtube.com/embed/' + vidId + '?enablejsapi=1&autoplay=1&autohide=1&showinfo=0&fs=0&rel=0" frameborder="0" allowfullscreen></iframe>');
+	
+	YTPlayer = new YT.Player('playerFrame', {
+		events: {
+			'onStateChange': onPSChange
+		}
+	});
+});
+
+function onPSChange(event) {
+	switch(event.data) {
+		case YT.PlayerState.ENDED:
+			ocultarVideo();
+			break;
+		case YT.PlayerState.PLAYING:
+		//	log('Video is playing.');
+			break;
+		case YT.PlayerState.PAUSED:
+		//	log('Video is paused.');
+			break;
+		case YT.PlayerState.BUFFERING:
+		//	log('Video is buffering.');
+			break;
+		case YT.PlayerState.CUED:
+		//	log('Video is cued.');
+			break;
+	}
+}
+
+function ocultarVideo(){
+	var btnVideo = $('#btnSaltarVideo');
+	
+	YTPlayer.stopVideo();
+	
+	if(SESSION['hasCode']){
+		ak_navigate('#video', '#home', 'toRight');
+	}else{
+		ak_navigate('#video', '#login', 'toRight');
+	}
+	
+	btnVideo.addClass('oculto');
+}
 
 function ak_navigate(from, to, effect){
 	var fx = (effect != undefined)? effect : 'toLeft';
@@ -495,18 +548,24 @@ function form_login(form){
 		,bt: '#BtnCodigo'
 		,func : function(data){
 			//
-			loadCont( SITE_URL+'app?pedir=codigo&num='+data.codigo, function(d){
-				var obj = jQuery.parseJSON(d);
-				$('#cortina').remove();
-				
-				if(obj.success === false){
-					ak_showtip(  $(obj.selector), obj.msj );
-				}else{
-					SESSION['hasCode'] = 't';
-					ak_navigate('#login', '#home');
-					init_calendar();			
+			openLog.api({
+				url : SITE_URL
+				,path: 'app'
+				,jsonp: true
+				,query: {
+					pedir: 'codigo'
+					,num: data.codigo
 				}
-				
+				,success: function(obj){					
+					$('#cortina').remove();
+					if(obj.success === false){
+						ak_showtip(  $(obj.selector), obj.msj );
+					}else{
+						SESSION['hasCode'] = 't';
+						ak_navigate('#login', '#home');
+						init_calendar();			
+					}
+				}
 			});
 			
 		}
