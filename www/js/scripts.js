@@ -469,7 +469,6 @@ $(function(){
 			}
 			,success: function(d){					
 				if(d){
-					
 					if(d.fbtoken != undefined){
 						SESSION['fbtoken'] = d.fbtoken.ide;
 						hasFB = true;
@@ -494,9 +493,9 @@ $(function(){
 
 $(window).load(function(){
 	//PRIMERO CARGA EL VIDEO DESDE (YT) API
-	var vidId = 'rcs7GR1YzPE';
-	$('#video-frame').html('<iframe id="playerFrame" width="100%" height="100%" src="https://www.youtube.com/embed/' + vidId + '?modestbranding=1&enablejsapi=1&autoplay=0&fs=0&rel=0&controls=0&html5=1&watermark=0" frameborder="0"></iframe>');
-	
+//	var vidId = 'rcs7GR1YzPE';
+//	$('#video-frame').html('<iframe id="playerFrame" width="100%" height="100%" src="https://www.youtube.com/embed/' + vidId + '?modestbranding=1&enablejsapi=1&autoplay=0&fs=0&rel=0&controls=0&html5=1&watermark=0" frameborder="0"></iframe>');
+/*	
 	YTPlayer = new YT.Player('playerFrame', {
 		events: {
 			'onStateChange': onPSChange
@@ -505,6 +504,12 @@ $(window).load(function(){
 			}
 		}
 	});
+*/
+	VIDEO = document.getElementById("video1"); 
+	VIDEO.play(); 
+	VIDEO.onended = function(e) {
+      ocultarVideo();
+    };
 });
 
 function IniciarReloj() {
@@ -523,6 +528,7 @@ function checkTime(i) {
     return i;
 }
 
+/*
 function onPSChange(event) {
 	switch(event.data) {
 		case YT.PlayerState.ENDED:
@@ -543,11 +549,13 @@ function onPSChange(event) {
 			break;
 	}
 }
+*/
 
 function ocultarVideo(){
 	var btnVideo = $('#btnSaltarVideo');
 	
-	YTPlayer.stopVideo();
+//	YTPlayer.stopVideo();
+	VIDEO.pause();
 	
 	if(SESSION['hasCode']){
 	
@@ -700,6 +708,15 @@ function form_login(form){
 	return false;
 }
 
+function logout(){
+	$('body').prepend('<div id="cortina"></div>');
+	openLog.jsonp( SITE_URL+'app?pedir=salir', 
+	function(resp){
+		SESSION.clear();
+		location.reload();
+	});
+}
+
 function logearRedes(){
 	$('#login form').css('display', 'none');
 	$('#LogearCon').css('display', 'block');
@@ -791,7 +808,6 @@ function init_calendar(){
 			CalIni = view.start._d;
 			CalEnd = view.end._d;
 			CalMes = view.intervalEnd._d;
-			
 			var ini = view.start._d.format("isoUtcDateTime");
 			var end = view.end._d.format("isoUtcDateTime");
 			if(hasMW){
@@ -1008,9 +1024,10 @@ function monthDiff(d1, d2) {
 				}
 			});
 		}else{	
-			loadCont( SITE_URL+'app?pedir=goo_events&k='+apiKey+'&a='+gctoken 
-			,function(resp){
-				var resp = JSON.parse(resp);
+			
+			openLog.jsonp( SITE_URL+'app?pedir=goo_events&k='+apiKey+'&a='+gctoken, 
+			function(resp){
+				//var resp = JSON.parse(resp);
 				if(resp && !resp.error){
 					G_Events = resp.items;
 					goo_getEvents();

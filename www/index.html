@@ -32,7 +32,13 @@
 	</header>
 	<section id="video" class="Page toCenter">
 		<div class="video-cortina"></div>
-		<div id="video-frame" class="aspect-video horizontal"></div>
+		<!--<div id="video-frame" class="aspect-video horizontal"></div>-->
+		  <video id="video1" width="420" class="aspect-video horizontal">
+			<source src="https://irisdev.co/calendar_app/video.mp4" type="video/mp4">
+			<source src="https://irisdev.co/calendar_app/video.ogg" type="video/ogg">
+			No se pudo cargar el video, haz click 
+			<span id="btnSaltarVideo" href="#!" onclick="ocultarVideo();" class="btn btn-danger">aqu&iacute;</span> para saltar.
+		  </video>
 	</section>
 	<section id="login" class="Page">
 		<div class="Main">
@@ -78,7 +84,7 @@
 				<div class="row">
 					<div class="col-sm-6"> 
 						<div class="cal-mh">
-							<div class="cal-mh-hora"> 9:30 </div>
+							<div class="cal-mh-hora"> 00:00 </div>
 							<div class="cal-mh-pagi">
 								<div class="row">
 									<div class="col-xs-2 cal-prev"><img src="img/cal-vercal-left.png" /></div>
@@ -90,6 +96,8 @@
 					</div>
 					<div class="col-sm-6">
 						<div class="Calendario"></div>
+						<div>&nbsp;</div>
+						<span onclick="logout();" class="btn btn-danger btn-lg margin-input"> Borrar sesion </span>
 					</div>
 				</div>
 			</div><!-- End container-->

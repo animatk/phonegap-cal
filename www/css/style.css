@@ -329,6 +329,7 @@ header a{
 	background: rgba(0,0,0,.4);
 	border-color: rgba(0,0,0,.5);
 	border-radius: 0;
+	color: #C7C7C7;
 }
 #login form .btn-primary{
 	background: rgba(0,0,0,.8);
