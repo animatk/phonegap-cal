@@ -14,7 +14,7 @@
 			<div class="row">
 				<div class="col-xs-3">
 					<div class="hea-opts"> 
-						<a id="btnIzquierdo" href="#!" onclick="" class="btn oculto"> izq </a>
+						<span id="btnIzquierdo" href="#!" onclick="" class="btn oculto"> izq </span>
 					</div>
 				</div>
 				<div class="col-xs-6" style="padding:0;"> 
@@ -24,7 +24,7 @@
 				</div>
 				<div class="col-xs-3">
 					<div class="hea-opts">
-						<a id="btnSaltarVideo" href="#!" onclick="ocultarVideo();" class="btn"> Saltar </a>
+						<span id="btnSaltarVideo" href="#!" onclick="ocultarVideo();" class="btn"> Saltar </span>
 					</div>
 				</div>
 			</div>
@@ -37,13 +37,26 @@
 	<section id="login" class="Page">
 		<div class="Main">
 			<div class="container">
+				<div class="login-logo">
+					<img class="login-text" src="img/cal-mus-logo.png" alt="Calendario Mustang" />
+					<br/><img class="login-icon" src="img/icon.png" alt="Ford Mustang" />
+				</div>
 				<form action="" onsubmit="return form_login( this ); return false;">
 					<div class="input-group">
-						<span class="input-group-addon"> Código </span>
-						<input name="codigo" class="form-control required onlynum" value="" placeholder="Código" /> 
-						<span class="input-group-btn"><button id="BtnCodigo" class="btn btn-primary"> ENVIAR </button></span>
+						<input name="codigo" class="form-control required onlynum" value="" placeholder="Código" autocomplete="off" /> 
+						<span class="input-group-btn">
+							<button id="BtnCodigo" class="btn btn-primary"> ENVIAR </button>
+						</span>
 					</div>
 				</form>
+				<div id="LogearCon" class="oculto">
+					<span onclick="fb_login();" class="btn btn-primary btn-lg fbLogin margin-input"> Con&eacute;ctate con Facebook </span>
+					<span onclick="goo_login();" class="btn btn-danger btn-lg gcLogin margin-input"> Con&eacute;ctate con Google Plus </span>
+					<span onclick="mw_login();" class="btn btn-success btn-lg mwLogin"> Con&eacute;ctate con Outlook </span>
+				</div>
+				<div class="login-brands">
+					<img src="img/logos.png" alt="Mustang Ford SoHo" />
+				</div>
 			</div><!-- End container-->
 		</div><!-- End main-->
 	</section>
@@ -62,12 +75,18 @@
 	<section id="calendario" class="Page">
 		<div class="Main">
 			<div class="container">
-				<span class="the-title"> Calendario </span>
 				<div class="row">
 					<div class="col-sm-6"> 
-						<a onclick="fb_login();" style="display:none;" class="btn btn-primary fbLogin"> Login con Facebook </a>
-						<a onclick="goo_login();" style="display:none;" class="btn btn-danger gcLogin"> Login con Google </a>
-						<a onclick="mw_login();" style="display:none;" class="btn btn-success mwLogin"> Login con Outlook </a>
+						<div class="cal-mh">
+							<div class="cal-mh-hora"> 9:30 </div>
+							<div class="cal-mh-pagi">
+								<div class="row">
+									<div class="col-xs-2 cal-prev"><img src="img/cal-vercal-left.png" /></div>
+									<div class="col-xs-8 cal-mes"> Mes </div>
+									<div class="col-xs-2 cal-next"><img src="img/cal-vercal.png" /></div>
+								</div>
+							</div>
+						</div>
 					</div>
 					<div class="col-sm-6">
 						<div class="Calendario"></div>
@@ -86,14 +105,14 @@
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<a href="#!" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></a>
+				<span href="#!" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></span>
 				<h4 class="modal-title"> Evento </h4>
 			</div>
 			<div class="modal-body">
 			<!--detalles-->
 			</div>
 			<div class="modal-footer">
-				<a href="#!" class="btn btn-default" data-dismiss="modal">Close</a>
+				<span href="#!" class="btn btn-default" data-dismiss="modal">Close</span>
 				<!-- <a href="#!" class="btn btn-primary">Save changes</a> -->
 			</div>
 		</div><!-- /.modal-content -->
@@ -104,7 +123,7 @@
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<a href="#!" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></a>
+				<span href="#!" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></span>
 				<h4 class="modal-title"> Gestionar Evento </h4>
 			</div>
 			<div class="modal-body">
@@ -159,8 +178,8 @@
 				</form>
 			</div>
 			<div class="modal-footer">
-				<a href="#!" class="btn btn-default" data-dismiss="modal"> Cancelar </a>
-				<a href="#!" class="btn btn-primary boton-saveEvent" onclick="guardar_evento();"> Guardar Evento </a>
+				<span href="#!" class="btn btn-default" data-dismiss="modal"> Cancelar </span>
+				<span href="#!" class="btn btn-primary boton-saveEvent" onclick="guardar_evento();"> Guardar Evento </span>
 			</div>
 		</div><!-- /.modal-content -->
 	</div><!-- /.modal-dialog -->

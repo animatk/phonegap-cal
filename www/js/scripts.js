@@ -1,7 +1,20 @@
 var MOBILE = true;
 var SITE_URL = 'https://irisdev.co/calendar_app/';
 var SESSION = window.localStorage;
-
+var MesesData = [
+	{mes:"Enero", desc:"Ford Mustang Modelo 2014"}
+	,{mes:"Febrero", desc:"Ford Mustang Modelo 2014"}
+	,{mes:"Marzo", desc:"Ford Mustang Modelo 2014"}
+	,{mes:"Abril", desc:"Ford Mustang Modelo 2014"}
+	,{mes:"Mayo", desc:"Ford Mustang Modelo 2014"}
+	,{mes:"Junio", desc:"Ford Mustang Modelo 2014"}
+	,{mes:"Julio", desc:"Ford Mustang Modelo 2014"}
+	,{mes:"Agosto", desc:"Ford Mustang Modelo 2014"}
+	,{mes:"Septiembre", desc:"Ford Mustang Modelo 2014"}
+	,{mes:"Octubre", desc:"Ford Mustang Modelo 2014"}
+	,{mes:"Noviembre", desc:"Ford Mustang Modelo 2014"}
+	,{mes:"Diciembre", desc:"Ford Mustang Modelo 2014"}
+];
 
 function loadCont(url, func){
 	jQuery.ajax({
@@ -447,10 +460,6 @@ $(function(){
 		fecha1.removeClass('fecha-hora');
 		fecha2.removeClass('fecha-hora');
 		
-		if(SESSION['hasCode']){
-	//		$('html').prepend('<div id="cortina"></div>');
-		}
-
 		openLog.api({
 			 url: SITE_URL
 			,path: 'app'
@@ -463,19 +472,16 @@ $(function(){
 					
 					if(d.fbtoken != undefined){
 						SESSION['fbtoken'] = d.fbtoken.ide;
+						hasFB = true;
 					}
 					
 					if(d.gctoken != undefined){
 						SESSION['gctoken'] = d.gctoken.ide;
+						hasGC = true;
 					}
 					if(d.mwtoken != undefined){
 						SESSION['mwtoken'] = d.mwtoken.ide;
-					}
-					//
-					if(SESSION['hasCode']){
-			//			$('#cortina').remove();
-			//			ak_navigate('#login', '#home');
-			//			init_calendar();
+						hasMW = true;
 					}
 				}
 			}
@@ -501,6 +507,21 @@ $(window).load(function(){
 	});
 });
 
+function IniciarReloj() {
+    var today=new Date();
+    var h=today.getHours();
+    var m=today.getMinutes();
+    var s=today.getSeconds();
+    m = checkTime(m);
+  //  s = checkTime(s);
+  //  $('.cal-mh-hora').html( h+":"+m+":"+s);
+	$('.cal-mh-hora').html( h+":"+m );
+    var t = setTimeout(function(){ IniciarReloj();},500);
+}
+function checkTime(i) {
+    if (i<10) {i = "0" + i};  // add zero in front of numbers < 10
+    return i;
+}
 
 function onPSChange(event) {
 	switch(event.data) {
@@ -529,13 +550,23 @@ function ocultarVideo(){
 	YTPlayer.stopVideo();
 	
 	if(SESSION['hasCode']){
-		ak_navigate('#video', '#home', 'toRight');
+	
+		if(hasFB || hasGC || hasMW){
+			ak_navigate('#video', '#home', 'toLeft');
+			listarMeses();
+			init_calendar();
+			IniciarReloj();
+		}else{
+			ak_navigate('#video', '#login', 'toLeft');
+			$('header').addClass('arriba');
+			logearRedes();
+		}
 	}else{
-		ak_navigate('#video', '#login', 'toRight');
+		ak_navigate('#video', '#login', 'toLeft');
+		$('header').addClass('arriba');
 	}
 	
 	btnVideo.addClass('oculto');
-	listarMeses();
 }
 
 function ak_navigate(from, to, effect){
@@ -548,22 +579,6 @@ function ak_navigate(from, to, effect){
 
 
 function listarMeses(){
-	
-	var data = [
-		{mes:"Enero", desc:"Ford Mustang Modelo 2014"}
-		,{mes:"Febrero", desc:"Ford Mustang Modelo 2014"}
-		,{mes:"Marzo", desc:"Ford Mustang Modelo 2014"}
-		,{mes:"Abril", desc:"Ford Mustang Modelo 2014"}
-		,{mes:"Mayo", desc:"Ford Mustang Modelo 2014"}
-		,{mes:"Junio", desc:"Ford Mustang Modelo 2014"}
-		,{mes:"Julio", desc:"Ford Mustang Modelo 2014"}
-		,{mes:"Agosto", desc:"Ford Mustang Modelo 2014"}
-		,{mes:"Septiembre", desc:"Ford Mustang Modelo 2014"}
-		,{mes:"Octubre", desc:"Ford Mustang Modelo 2014"}
-		,{mes:"Noviembre", desc:"Ford Mustang Modelo 2014"}
-		,{mes:"Diciembre", desc:"Ford Mustang Modelo 2014"}
-	];
-	
 
 	var listaMeses = $('#listaMeses');
 	var output = "";
@@ -571,12 +586,12 @@ function listarMeses(){
 	var mesActual = new Date().getMonth();
 	listaMeses.html("");
 	
-	for(i in data){
-		var obj = data[i];
+	for(i in MesesData){
+		var obj = MesesData[i];
 		var actual = (mesActual == i)? 'activo': "";
 		var out_ini = '<div class="col-sm-6 col-md-4"><div class="mes-cont '+actual+'">';
 		var out_foto = '<div class="mes-foto" onclick="loadCalImage('+i+');" style="background-image: url(img/meses/'+i+'.jpg);"><div class="foto-sup"><img src="img/cal-verimagen.png" alt="Ver Imagen" /></div></div>';
-		var out_deta = '<div class="mes-deta"><div class="mes-deta-info"><div class="mes-deta-int"><div class="mes-titl">'+obj.mes+'</div><div class="mes-desc">'+obj.desc+'</div></div></div><div class="mes-deta-sub"><span class="mes-deta-ver" onclick="loadCalMes('+i+');"><img src="img/cal-vercal.png" alt="Ver Calendario" /></span></div></div>';
+		var out_deta = '<div class="mes-deta" onclick="loadCalMes('+i+');"><div class="mes-deta-info"><div class="mes-deta-int"><div class="mes-titl">'+obj.mes+'</div><div class="mes-desc">'+obj.desc+'</div></div></div><div class="mes-deta-sub"><span class="mes-deta-ver"><img src="img/cal-vercal.png" alt="Ver Calendario" /></span></div></div>';
 		
 		output += out_ini;
 		
@@ -604,8 +619,26 @@ function loadCalImage(n){
 	});
 }
 function loadCalMes(n){
-	ak_navigate('#home', '#calendario');
+	var obj = MesesData[n];
+	$('.cal-mes').html( obj.mes +' de 2015');
+	$('.cal-mh').css('background-image', 'url(img/meses/'+n+'.jpg)');
 	
+	var next = (n+1 > 11)? 0 : n+1;
+	var prev = (n-1 < 0)? 11 : n-1;
+	
+	$('.cal-prev').attr('onclick', 'loadCalMes('+prev+', false)');
+	$('.cal-next').attr('onclick', 'loadCalMes('+next+', false)');
+	
+	
+	var d = new Date();
+	d.setYear(2015);
+	d.setMonth(n);
+	var m = moment(d);
+	$('.Calendario').fullCalendar( 'gotoDate', m );
+	
+	
+	ak_navigate('#home', '#calendario');
+
 	btnIzq({
 		text : 'Volver'
 		,from : '#calendario'
@@ -620,7 +653,6 @@ function btnIzq(obj){
 	btmI.html(obj.text);
 	btmI.attr('onclick', "ak_navigate('"+obj.from+"', '"+obj.to+"' "+effect+"); $('#btnIzquierdo').addClass('oculto')");
 	btmI.removeClass('oculto');
-
 }
 
 
@@ -648,8 +680,16 @@ function form_login(form){
 						ak_showtip(  $(obj.selector), obj.msj );
 					}else{
 						SESSION['hasCode'] = 't';
-						ak_navigate('#login', '#home');
-						init_calendar();			
+						
+						if(hasFB || hasGC || hasMW){
+							$('header').removeClass('arriba');
+							ak_navigate('#login', '#home');
+							listarMeses();
+							init_calendar();
+						}else{
+							logearRedes();
+						}
+					//	init_calendar();			
 					}
 				}
 			});
@@ -659,6 +699,13 @@ function form_login(form){
 	
 	return false;
 }
+
+function logearRedes(){
+	$('#login form').css('display', 'none');
+	$('#LogearCon').css('display', 'block');
+}
+
+
 /* END FORM LOGIN */
 
 //Calendar Constants
@@ -676,9 +723,9 @@ function init_calendar(){
 		,selectHelper: true
 	//	,eventLimit: true
 		,header: {
-			left: 'prev,next today',
-			center: 'title',
-			right: 'month,agendaWeek'
+			left: '',
+			center: '',
+			right: ''
 		}
 		,select: function(start, end) {
 			
