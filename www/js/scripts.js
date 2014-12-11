@@ -563,7 +563,7 @@ function ocultarVideo(){
 			ak_navigate('#video', '#home', 'toLeft');
 			listarMeses();
 			init_calendar();
-			IniciarReloj();
+		//	IniciarReloj();
 		}else{
 			ak_navigate('#video', '#login', 'toLeft');
 			$('header').addClass('arriba');
