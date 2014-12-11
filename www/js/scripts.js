@@ -506,7 +506,7 @@ $(window).load(function(){
 	});
 */
 	VIDEO = document.getElementById("video1"); 
-	VIDEO.play(); 
+//	VIDEO.play(); 
 	VIDEO.onended = function(e) {
       ocultarVideo();
     };

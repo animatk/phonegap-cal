@@ -312,17 +312,17 @@ header a{
 	height: 125px;
 }
 .login-brands{
-	position: absolute;
-	bottom: 15px;
-	left: 0;
 	padding: 10px;
 	text-align: center;
 	width: 100%;
 	border-collapse: collapse;
+	padding-top: 25px;
+	height: 0;
 }
 .login-brands img{
 	width: 100%;
 	max-height: 60px;
+	max-width: 364px;
 }
 
 #login form .form-control{
