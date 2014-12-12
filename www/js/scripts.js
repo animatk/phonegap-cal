@@ -505,11 +505,17 @@ $(window).load(function(){
 		}
 	});
 */
-	VIDEO = document.getElementById("video1"); 
+//	VIDEO = document.getElementById("video1"); 
 //	VIDEO.play(); 
-	VIDEO.onended = function(e) {
-      ocultarVideo();
-    };
+//	VIDEO.onended = function(e) {
+//      ocultarVideo();
+//  };
+
+	$('#video-frame').css('background-image', 'url(img/video.gif)');
+	
+	setTimeout(function(){
+		ocultarVideo();
+	}, 5200);
 });
 
 function IniciarReloj() {
@@ -555,7 +561,7 @@ function ocultarVideo(){
 	var btnVideo = $('#btnSaltarVideo');
 	
 //	YTPlayer.stopVideo();
-	VIDEO.pause();
+//	VIDEO.pause();
 	
 	if(SESSION['hasCode']){
 	
