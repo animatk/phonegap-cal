@@ -49,7 +49,7 @@
 					<img class="login-text" src="img/cal-mus-logo.png" alt="Calendario Mustang" />
 					<br/><img class="login-icon" src="img/icon.png" alt="Ford Mustang" />
 				</div>
-				<form action="" onsubmit="return form_login( this ); return false;">
+				<form action="" onsubmit="return form_login( this ); return false;" class="oculto">
 					<div class="input-group">
 						<input name="codigo" class="form-control required onlynum" value="" placeholder="Código" autocomplete="off" /> 
 						<span class="input-group-btn">
@@ -57,7 +57,7 @@
 						</span>
 					</div>
 				</form>
-				<div id="LogearCon" class="oculto">
+				<div id="LogearCon">
 					<span onclick="fb_login();" class="btn btn-primary btn-lg fbLogin margin-input"> Con&eacute;ctate con Facebook </span>
 					<span onclick="goo_login();" class="btn btn-danger btn-lg gcLogin margin-input"> Con&eacute;ctate con Google Plus </span>
 					<span onclick="mw_login();" class="btn btn-success btn-lg mwLogin"> Con&eacute;ctate con Outlook </span>

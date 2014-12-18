@@ -471,15 +471,18 @@ $(function(){
 				if(d){
 					if(d.fbtoken != undefined){
 						SESSION['fbtoken'] = d.fbtoken.ide;
+						SESSION['hasCode'] = true;
 						hasFB = true;
 					}
 					
 					if(d.gctoken != undefined){
 						SESSION['gctoken'] = d.gctoken.ide;
+						SESSION['hasCode'] = true;
 						hasGC = true;
 					}
 					if(d.mwtoken != undefined){
 						SESSION['mwtoken'] = d.mwtoken.ide;
+						SESSION['hasCode'] = true;
 						hasMW = true;
 					}
 				}

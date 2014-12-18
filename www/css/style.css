@@ -308,7 +308,7 @@ header a{
 	padding: 10px;
 }
 .login-text{
-	height: 65px;
+	height: 70px;
 }
 .login-icon{
 	height: 125px;
@@ -341,7 +341,6 @@ header a{
 
 #LogearCon {
 	text-align: center;
-	display: none;
 }
 #LogearCon .btn{
 	display: block;
