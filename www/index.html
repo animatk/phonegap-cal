@@ -24,12 +24,25 @@
 				</div>
 				<div class="col-xs-3">
 					<div class="hea-opts">
-						<span id="btnSaltarVideo" href="#!" onclick="ocultarVideo();" class="btn"> Saltar </span>
+						<span id="btnSaltarVideo" onclick="ocultarVideo();" class="btn"> Saltar </span>
+						<span id="btnMenu" onclick="$('#menu').toggleClass('toCenter');" class="btn btn-hambur oculto"> 
+							<span> </span>
+							<span> </span>
+							<span> </span>
+						</span>
 					</div>
 				</div>
 			</div>
 		</div>
 	</header>
+	<section id="menu" class="Page">
+		<div class="menu-lateral">
+			<a href="#!"> Conozca el nuevo Mustang </a>
+			<a href="#!"> Ver detrás de cámaras </a>
+			<a href="#!" onclick="window.open('https://irisdev.co', '_system');"> Ir a página </a>
+			<a href="#!" onclick="logout();"> Cerrar Sesi&oacute;n </a>
+		</div>
+	</section>
 	<section id="video" class="Page toCenter">
 		<div class="video-cortina"></div>
 		<div id="video-frame" class="aspect-video horizontal"></div>
@@ -85,23 +98,21 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-sm-6"> 
+						<div class="cal-mh-pagi">
+							<div class="row">
+								<div class="col-xs-2 cal-prev"><img src="img/cal-vercal-left.png" /></div>
+								<div class="col-xs-8 cal-mes"> Mes </div>
+								<div class="col-xs-2 cal-next"><img src="img/cal-vercal.png" /></div>
+							</div>
+						</div>
 						<div class="cal-mh">
 						<!--
 							<div class="cal-mh-hora"> 00:00 </div>
 						-->
-							<div class="cal-mh-pagi">
-								<div class="row">
-									<div class="col-xs-2 cal-prev"><img src="img/cal-vercal-left.png" /></div>
-									<div class="col-xs-8 cal-mes"> Mes </div>
-									<div class="col-xs-2 cal-next"><img src="img/cal-vercal.png" /></div>
-								</div>
-							</div>
 						</div>
 					</div>
 					<div class="col-sm-6">
-						<div class="Calendario"></div>
-						<div>&nbsp;</div>
-						<span onclick="logout();" class="btn btn-danger btn-lg margin-input"> Cerrar Sesi&oacute;n </span>
+						<div class="Calendario"></div>						
 					</div>
 				</div>
 			</div><!-- End container-->

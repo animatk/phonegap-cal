@@ -240,7 +240,7 @@ header a{
 }
 
 .oculto,
-#fb-root{ display:none; }
+#fb-root{ display:none !important; }
 
 #cortina{
 	position: absolute;
@@ -263,6 +263,8 @@ header a{
 	position: absolute;
 	overflow: hidden;
 }
+
+
 
 /* SECCION DEL VIDEO */
 .video-cortina{
@@ -429,6 +431,49 @@ header a{
 	width: 20px;
 }
 
+/* MENU */
+
+#menu{
+	z-index: 3;
+}
+
+.btn-hambur{
+	display: block;
+	max-width: 60px;
+}
+.btn-hambur span{
+	width: 100%;
+	height: 5px;
+	display: block;
+	background: #fff;
+	margin-bottom: 5px;
+	border-radius: 3px;
+}
+
+.btn-hambur:hover span{
+	background: #ccc;
+}
+
+.menu-lateral{
+	right: 0;
+	width: 80%;
+	color: #fff;
+	height: 100%;
+	max-width: 280px;
+	padding-top: 60px;
+	position: absolute;
+	background: #1F1F1F;
+}
+
+.menu-lateral a{
+	display: block;
+	color: #fff;
+	font-size: 17px;
+	padding: 15px;
+	text-decoration: none;
+	border-bottom: 2px groove rgba(110, 110, 110, 0.30);
+	
+}
 
 /* SECCION DEL CALENDARIO */
 
@@ -449,11 +494,12 @@ header a{
 }
 .cal-mh-pagi{
 	height: 40px;
-	border-top: 2px groove #f80;
+	/*border-top: 2px groove #f80;*/
 	background: rgba(242, 105, 0, 0.6);
 	padding-top: 8px;
 	text-align: center;
 	font-size: 16px;
+	margin:0 -15px;
 }
 
 .cal-mh-pagi img{

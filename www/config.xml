@@ -16,6 +16,8 @@
 	
 	<access origin="*"/>
 	
+	<gap:plugin name="org.li8.inappbrowser" version="0.1" />
+	
 	<!-- Define app icon for each platform. -->
     <icon src="icon.png" />
     <icon src="res/icon/icon.png" gap:platform="android" gap:density="ldpi" />

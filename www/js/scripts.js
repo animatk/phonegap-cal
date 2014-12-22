@@ -492,7 +492,7 @@ $(function(){
 });
 
 
-
+var vidAct = true; //video activo
 
 $(window).load(function(){
 	//PRIMERO CARGA EL VIDEO DESDE (YT) API
@@ -514,10 +514,12 @@ $(window).load(function(){
 //      ocultarVideo();
 //  };
 
-	$('#video-frame').css('background-image', 'url(img/video.gif)');
+	$('#video-frame').css('background-image', 'url(img/video.gif?n='+Math.floor((Math.random() * 9999) + 1000)+')');
 	
 	setTimeout(function(){
-		ocultarVideo();
+		if(vidAct){
+			ocultarVideo();
+		}
 	}, 5200);
 });
 
@@ -561,13 +563,14 @@ function onPSChange(event) {
 */
 
 function ocultarVideo(){
-	var btnVideo = $('#btnSaltarVideo');
+	var btnVideo = $('#btnSaltarVideo'),
+	btnMenu = $('#btnMenu');
+	vidAct = false;
 	
 //	YTPlayer.stopVideo();
 //	VIDEO.pause();
 	
 	if(SESSION['hasCode']){
-	
 		if(hasFB || hasGC || hasMW){
 			ak_navigate('#video', '#home', 'toLeft');
 			listarMeses();
@@ -584,6 +587,7 @@ function ocultarVideo(){
 	}
 	
 	btnVideo.addClass('oculto');
+	btnMenu.removeClass('oculto');
 }
 
 function ak_navigate(from, to, effect){
@@ -624,10 +628,11 @@ function listarMeses(){
 	listaMeses.html(output);
 }
 
-function loadCalImage(n){
+function loadCalImage(n, f){
 	var contImage = $('#imagen');
+	var from = (f != undefined)? f : '#home';
 	contImage.css('background-image', 'url(img/meses/'+n+'.jpg)');
-	ak_navigate('#home', '#imagen');
+	ak_navigate( from , '#imagen');
 	btnIzq({
 		text : 'Volver'
 		,from : '#imagen'
@@ -645,6 +650,7 @@ function loadCalMes(n){
 	
 	$('.cal-prev').attr('onclick', 'loadCalMes('+prev+', false)');
 	$('.cal-next').attr('onclick', 'loadCalMes('+next+', false)');
+	$('.cal-mh').attr('onclick', 'loadCalImage('+n+', \'#calendario\')');
 	
 	
 	var d = new Date();
