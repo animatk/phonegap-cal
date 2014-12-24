@@ -1,19 +1,20 @@
 var MOBILE = true;
-var SITE_URL = 'https://irisdev.co/calendar_app/';
+var SITE_URL = 'https://calendariomustangsoho2015.com/';
 var SESSION = window.localStorage;
 var MesesData = [
-	{mes:"Enero", desc:"Ford Mustang Modelo 2014"}
-	,{mes:"Febrero", desc:"Ford Mustang Modelo 2014"}
-	,{mes:"Marzo", desc:"Ford Mustang Modelo 2014"}
-	,{mes:"Abril", desc:"Ford Mustang Modelo 2014"}
-	,{mes:"Mayo", desc:"Ford Mustang Modelo 2014"}
-	,{mes:"Junio", desc:"Ford Mustang Modelo 2014"}
-	,{mes:"Julio", desc:"Ford Mustang Modelo 2014"}
-	,{mes:"Agosto", desc:"Ford Mustang Modelo 2014"}
-	,{mes:"Septiembre", desc:"Ford Mustang Modelo 2014"}
-	,{mes:"Octubre", desc:"Ford Mustang Modelo 2014"}
-	,{mes:"Noviembre", desc:"Ford Mustang Modelo 2014"}
-	,{mes:"Diciembre", desc:"Ford Mustang Modelo 2014"}
+	{mes:"Enero",       mes_nu: 0,  year: 2015, desc : "Mustang Mach I 1968",     info : "Lock Up (1989)"}
+	,{mes:"Febrero",    mes_nu: 1,  year: 2015, desc : "Mustang 1967",            info : "Gone in 60 Seconds (2000)"}
+	,{mes:"Marzo",      mes_nu: 2,  year: 2015, desc : "Mustang Fastback 1965",   info : "Drive (2011)"}
+	,{mes:"Abril",      mes_nu: 3,  year: 2015, desc : "Mustang 1965",            info : "James Bond \"Goldfinger\" (1964)"}
+	,{mes:"Mayo",       mes_nu: 4,  year: 2015, desc : "Mustang GT Premium 2013", info : "Fast & Furious 6 (2013)"}
+	,{mes:"Junio",      mes_nu: 5,  year: 2015, desc : "Mustang Mach I 1968",     info : "Bullitt (1968)"}
+	,{mes:"Julio",      mes_nu: 6,  year: 2015, desc : "Mustang Mach I 1968",     info : "Lock Up (1989)"}
+	,{mes:"Agosto",     mes_nu: 7,  year: 2015, desc : "Mustang 1967",            info : "Gone in 60 Seconds (2000)"}
+	,{mes:"Septiembre", mes_nu: 8,  year: 2015, desc : " Mustang Fastback 1965",  info : "Drive (2011)"}
+	,{mes:"Octubre",    mes_nu: 9,  year: 2015, desc : "Mustang 1965",            info : "James Bond \"Goldfinger\" (1964)"}
+	,{mes:"Noviembre",  mes_nu: 10, year: 2015, desc : "Mustang GT Premium 2013", info : "Fast & Furious 6 (2013)"}
+	,{mes:"Diciembre",  mes_nu: 11, year: 2015, desc : "Mustang Mach I 1968",     info : "Bullitt (1968)" }
+	,{mes:"Enero",      mes_nu: 0,  year: 2016, desc : "Mustang GT 50 Años"}
 ];
 
 function loadCont(url, func){
@@ -606,13 +607,13 @@ function listarMeses(){
 	var out_fin = '</div></div>';
 	var mesActual = new Date().getMonth();
 	listaMeses.html("");
-	
+
 	for(i in MesesData){
 		var obj = MesesData[i];
-		var actual = (mesActual == i)? 'activo': "";
-		var out_ini = '<div class="col-sm-6 col-md-4"><div class="mes-cont '+actual+'">';
-		var out_foto = '<div class="mes-foto" onclick="loadCalImage('+i+');" style="background-image: url(img/meses/'+i+'.jpg);"><div class="foto-sup"><img src="img/cal-verimagen.png" alt="Ver Imagen" /></div></div>';
-		var out_deta = '<div class="mes-deta" onclick="loadCalMes('+i+');"><div class="mes-deta-info"><div class="mes-deta-int"><div class="mes-titl">'+obj.mes+'</div><div class="mes-desc">'+obj.desc+'</div></div></div><div class="mes-deta-sub"><span class="mes-deta-ver"><img src="img/cal-vercal.png" alt="Ver Calendario" /></span></div></div>';
+		var actual = (mesActual == obj.mes_nu)? 'activo': "";
+		var out_ini = '<div class="col-sm-6"><div class="mes-cont '+actual+'">';
+		var out_foto = '<div class="mes-foto" onclick="loadCalImage('+i+');" style="background-image: url(img/meses/thumbnail_'+i+'.jpg);"><div class="foto-sup"><img src="img/cal-verimagen.png" alt="Ver Imagen" /></div></div>';
+		var out_deta = '<div class="mes-deta" onclick="loadCalMes('+i+');"><div class="mes-deta-info"><div class="mes-deta-int"><div class="mes-titl">'+obj.mes+'</div><div class="mes-desc">'+obj.info+'</div></div></div><div class="mes-deta-sub"><span class="mes-deta-ver"><img src="img/cal-vercal.png" alt="Ver Calendario" /></span></div></div>';
 		
 		output += out_ini;
 		
@@ -629,6 +630,7 @@ function listarMeses(){
 }
 
 function loadCalImage(n, f){
+	var obj = MesesData[n];
 	var contImage = $('#imagen');
 	var from = (f != undefined)? f : '#home';
 	contImage.css('background-image', 'url(img/meses/'+n+'.jpg)');
@@ -642,24 +644,22 @@ function loadCalImage(n, f){
 }
 function loadCalMes(n){
 	var obj = MesesData[n];
-	$('.cal-mes').html( obj.mes +' de 2015');
-	$('.cal-mh').css('background-image', 'url(img/meses/'+n+'.jpg)');
+	$('.cal-mes').html( obj.mes +' de '+ obj.year );
+	$('.cal-mh').css('background-image', 'url(img/meses/thumbnail_'+n+'.jpg)');
 	
-	var next = (n+1 > 11)? 0 : n+1;
-	var prev = (n-1 < 0)? 11 : n-1;
+	var next = (n+1 > MesesData.length)? 0 : n+1;
+	var prev = (n-1 < 0)? MesesData.length : n-1;
 	
 	$('.cal-prev').attr('onclick', 'loadCalMes('+prev+', false)');
 	$('.cal-next').attr('onclick', 'loadCalMes('+next+', false)');
 	$('.cal-mh').attr('onclick', 'loadCalImage('+n+', \'#calendario\')');
-	
-	
+
 	var d = new Date();
-	d.setYear(2015);
-	d.setMonth(n);
+	d.setYear( obj.year );
+	d.setMonth(obj.mes_nu);
 	var m = moment(d);
 	$('.Calendario').fullCalendar( 'gotoDate', m );
-	
-	
+
 	ak_navigate('#home', '#calendario');
 
 	btnIzq({
@@ -1008,8 +1008,8 @@ function monthDiff(d1, d2) {
 				,immediate: false
 				,include_granted_scopes: true
 				,proxy: "oauth2relay753833450"
-				,redirect_uri: "https://irisdev.co/calendar_app/opengc.html"
-				,origin: "https://irisdev.co"
+				,redirect_uri: "https://calendariomustangsoho2015.com/opengc.html"
+				,origin: "https://calendariomustangsoho2015.com/"
 				,response_type: "token"
 				,state: "557500042%7C0.3630815089"
 				,authuser: "0"
@@ -1243,7 +1243,7 @@ function gc_set_event(d, func)
 			,path: ''
 			,query: {
 				client_id : '326339840802808'
-				,redirect_uri : 'https://irisdev.co/calendar_app/openfb.html'
+				,redirect_uri : 'https://calendariomustangsoho2015.com/openfb.html'
 				,response_type : 'token'
 				,display : 'popup'
 				,scope : 'public_profile,user_friends,friends_birthday,user_birthday,user_events,rsvp_event'
@@ -1420,7 +1420,7 @@ function fb_set_event(d, func)
 				client_id:'00000000401374AC'
 				,display:'page'
 				,locale:'es'
-				,redirect_uri:'https://irisdev.co/calendar_app/openmw.html'
+				,redirect_uri:'https://calendariomustangsoho2015.com/openmw.html'
 				,response_type:'token'
 				,scope:'wl.signin wl.calendars wl.calendars wl.contacts_calendars wl.events_create wl.calendars_update'
 				,state:'redirect_type=auth&display=page&request_ts=1418135617739&response_method=url&secure_cookie=false'
