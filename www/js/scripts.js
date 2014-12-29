@@ -634,9 +634,15 @@ function listarMeses(){
 }
 
 function btnConozca(){
-	$('#menu').removeClass('toCenter'); 
+	$('section').removeClass('toCenter');
 	ak_navigate('#home', '#galeria'); 
 	galeriaImg(0);
+	btnIzq({
+		text : 'Volver'
+		,from : '#galeria'
+		,to : '#home'
+		,fx : 'toRight'
+	});
 }
 function btnDetrasde(){
 	$('#menu').removeClass('toCenter'); 
