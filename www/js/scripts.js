@@ -515,11 +515,7 @@ $(window).load(function(){
 //      ocultarVideo();
 //  };
 	
-	setupCordovaMediaPlayer();
-	initMediaPlayerForVideo("Calendario Mustang SoHo - detras de camaras",
-                        SITE_URL+"/vid/video.mp4",
-                        "",
-                        "Calendario Mustang SoHo 2015");
+	VideoPlayer.play(SITE_URL+"/vid/video.mp4");
 
 	$('#video-frame').css('background-image', 'url(img/video.gif?n='+Math.floor((Math.random() * 9999) + 1000)+')');
 	
