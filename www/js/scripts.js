@@ -517,7 +517,7 @@ $(window).load(function(){
 
 
 	initMediaPlayerForVideo("Calendario Mustang SoHo - detras de camaras",
-                        SITE_URL+"/video.mp4",
+                        SITE_URL+"/vid/video.mp4",
                         "",
                         "Calendario Mustang SoHo 2015");
 
