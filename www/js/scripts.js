@@ -519,11 +519,11 @@ $(window).load(function(){
 
 //	$('#video-frame').css('background-image', 'url(img/video.gif?n='+Math.floor((Math.random() * 9999) + 1000)+')');
 	
-//	setTimeout(function(){
-//		if(vidAct){
-//			ocultarVideo();
-//		}
-//	}, 5200);
+	setTimeout(function(){
+		if(vidAct){
+			ocultarVideo();
+		}
+	}, 5200);
 
 });
 
