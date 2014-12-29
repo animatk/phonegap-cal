@@ -106,6 +106,8 @@ header{
 	-webkit-transition-duration: .25s;
 		    transition-duration: .25s;
 }
+
+.fullSrc header,
 header.arriba{
 	-webkit-transform: translate3d(0, -60px, 0);
 		    transform: translate3d(0, -60px, 0);
@@ -268,6 +270,11 @@ header a{
    background-color: rgba(0,0,0, 0.01);
 }
 
+.escape-video{
+	padding: 10%;
+	padding-top: 50%;
+	text-align: center;
+}
 .aspect-video{
 	width: 100%;
 	height: 0;
@@ -295,7 +302,7 @@ header a{
 /* SECCION DEL CODIGO */
 .login-logo{
 	text-align: center;
-	padding-bottom: 40px;
+	padding-bottom: 15px;
 }
 .login-logo img{ 
 	padding: 10px;
@@ -332,15 +339,31 @@ header a{
 	border-radius: 0;
 }
 
-#LogearCon {
+.LogearCon {
 	text-align: center;
 }
-#LogearCon .btn{
+.LogearCon span.btn{
 	display: block;
 	border: 0;
 	border-radius: 0;
 	text-decoration: none;
+	padding: 0;
+	text-align: left;
 }
+.LogearCon span.btn img{
+	height: 30px;
+	margin-right: 20px;
+}
+
+.btn-entrar{
+	border-radius: 0;
+	border-bottom: 4px solid #5987CC;
+}
+.sincronizar-con{
+	padding: 6% ;
+}
+
+
 /* SECCION DEL LISTADO DE MESES */
 
 #listaMeses .col-sm-6{
@@ -497,6 +520,54 @@ header a{
 	height: 22px;
 }
 
+/* GALERIA */
+
+.gal-nav{
+	padding-top: 10%;
+}
+
+.gal-back,
+.gal-full,
+.gal-prev,
+.gal-next{
+	width: 60px;
+	height: 60px;
+	display: block;
+	cursor: pointer;
+	background: rgba(0,0,0,.6);
+	background-position: center;
+	background-repeat: no-repeat;
+}
+
+.gal-prev{
+	float: left;
+	background-image: url(../img/cal-vercal-left.png);
+}
+.gal-next{
+	float: right;
+	background-image: url(../img/cal-vercal.png);
+}
+
+.gal-options{
+	position: fixed;
+	width: 100%;
+	height: 70px;
+	bottom: 0;
+}
+
+.gal-back{
+	float: left;
+	background-image: url(../img/back.png);
+}
+.gal-full{
+	float: right;
+	background-image: url(../img/fullsrc.png);
+}
+.fullSrc .gal-full{
+	background-image: url(../img/fullsrc-cancel.png);
+}
+
+
 /* applicacion */
 
 #home{
@@ -511,8 +582,12 @@ header a{
 
 }
 #login{
-	background: url(../img/pantalla-ppal.png) no-repeat center;
+	background: url(../img/pantalla-ppal.png) no-repeat center top;
 	background-size: cover;
+}
+#galeria{
+	background: #282829 no-repeat center;
+	background-size: contain;
 }
 #calendario,
 #video{background: #282829;}

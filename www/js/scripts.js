@@ -517,13 +517,14 @@ $(window).load(function(){
 	
 	VideoPlayer.play(SITE_URL+"/vid/video.mp4");
 
-	$('#video-frame').css('background-image', 'url(img/video.gif?n='+Math.floor((Math.random() * 9999) + 1000)+')');
+//	$('#video-frame').css('background-image', 'url(img/video.gif?n='+Math.floor((Math.random() * 9999) + 1000)+')');
 	
-	setTimeout(function(){
-		if(vidAct){
-			ocultarVideo();
-		}
-	}, 5200);
+//	setTimeout(function(){
+//		if(vidAct){
+//			ocultarVideo();
+//		}
+//	}, 5200);
+
 });
 
 function IniciarReloj() {
@@ -613,9 +614,10 @@ function listarMeses(){
 	for(i in MesesData){
 		var obj = MesesData[i];
 		var actual = (mesActual == obj.mes_nu)? 'activo': "";
+		var info = (undefined != obj.info)? 'Película: '+obj.info : "";
 		var out_ini = '<div class="col-sm-6"><div class="mes-cont '+actual+'">';
 		var out_foto = '<div class="mes-foto" onclick="loadCalImage('+i+');" style="background-image: url(img/meses/thumbnail_'+i+'.jpg);"><div class="foto-sup"><img src="img/cal-verimagen.png" alt="Ver Imagen" /></div></div>';
-		var out_deta = '<div class="mes-deta" onclick="loadCalMes('+i+');"><div class="mes-deta-info"><div class="mes-deta-int"><div class="mes-titl">'+obj.mes+'</div><div class="mes-desc">'+obj.info+'</div></div></div><div class="mes-deta-sub"><span class="mes-deta-ver"><img src="img/cal-vercal.png" alt="Ver Calendario" /></span></div></div>';
+		var out_deta = '<div class="mes-deta" onclick="loadCalMes('+i+');"><div class="mes-deta-info"><div class="mes-deta-int"><div class="mes-titl">'+obj.mes+'</div><div class="mes-desc">'+obj.desc+'<br/>'+info+'</div></div></div><div class="mes-deta-sub"><span class="mes-deta-ver"><img src="img/cal-vercal.png" alt="Ver Calendario" /></span></div></div>';
 		
 		output += out_ini;
 		
@@ -629,6 +631,45 @@ function listarMeses(){
 	}
 	
 	listaMeses.html(output);
+}
+
+function btnConozca(){
+	$('#menu').removeClass('toCenter'); 
+	ak_navigate('#home', '#galeria'); 
+	galeriaImg(0);
+}
+function btnDetrasde(){
+	$('#menu').removeClass('toCenter'); 
+	VideoPlayer.play(SITE_URL+"/vid/video.mp4");
+}
+
+function galeriaImg(nu){
+	$('body').prepend('<div id="cortina"> </div>');
+	var n = (nu != undefined)? nu : 0;
+	var next = $('.gal-next');
+	var prev = $('.gal-prev');
+	
+	
+	$('<img>').attr('src', 'img/gal/'+n+'.jpg').load(function(){
+		
+		if(n > 6){
+			next.css('display', 'none');
+		}else{
+			next.css('display', 'block');
+			next.attr('onclick', 'galeriaImg('+(n+1)+')');
+			
+		}
+		//
+		if(n < 1){
+			prev.css('display', 'none');
+		}else{
+			prev.css('display', 'block');
+			prev.attr('onclick', 'galeriaImg('+(n-1)+')');
+		}
+		$('#cortina').remove();
+		$('#galeria').css('background-image','url(img/gal/'+n+'.jpg)');
+		
+	});
 }
 
 function loadCalImage(n, f){
