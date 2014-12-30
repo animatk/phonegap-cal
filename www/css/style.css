@@ -109,8 +109,8 @@ header{
 
 .fullSrc header,
 header.arriba{
-	-webkit-transform: translate3d(0, -60px, 0);
-		    transform: translate3d(0, -60px, 0);
+	-webkit-transform: translate3d(0, -90px, 0);
+		    transform: translate3d(0, -90px, 0);
 }
 .logo{
 	text-align: center;
@@ -477,6 +477,14 @@ header a{
 	padding-top: 60px;
 	position: absolute;
 	background: #1F1F1F;
+	overflow-y: scroll;
+}
+
+.padding20 header{
+	padding-top: 20px;
+}
+.padding20 .Canvas section{
+	padding-top: 19px;
 }
 
 .menu-lateral a{

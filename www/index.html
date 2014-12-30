@@ -42,21 +42,39 @@
 			<a href="#!" onclick="window.open('http://ford.com.co', '_system');"> Ir a ford.com.co </a>
 			<a href="#!" onclick="window.open('http://soho.com.co', '_system');"> Ir a soho.com.co </a>
 			<a href="#!" onclick="logout();"> Cerrar Sesi&oacute;n </a>
+			<div class="LogearCon">
+				<div class="sincronizar-con">
+					sincroniza con el calendario de tu preferencia.
+				</div>
+				<span onclick="fb_login();" class="btn btn-primary fbLogin margin-input">
+					<img src="img/icon-fb.png" alt="Facebook" /> 
+					Sincronizar con Facebook 
+				</span>
+				<span onclick="goo_login();" class="btn btn-danger gcLogin margin-input"> 
+					<img src="img/icon-gp.png" alt="Google+" />
+					Sincronizar con Google 
+				</span>
+				<span onclick="mw_login();" class="btn btn-info mwLogin">
+					<img src="img/icon-mw.png" alt="Outlook" />
+					Sincronizar con Outlook 
+				</span>
+			</div>
 		</div>
 	</section>
 	<section id="video" class="Page toCenter">
 		<div class="video-cortina"></div>
-		<div class="escape-video">
+		<div class="escape-video oculto">
 			Cargando vídeo...  <br/>Si el vídeo no carga toca SALTAR para continuar. 
 		</div>
-		<!--
-		  <video id="video1" width="420" class="aspect-video horizontal" autobuffer controls autoplay>
-			<source src="vid/video.mp4" type="video/mp4">
-			<source src="vid/video.ogg" type="video/ogg">
+		
+		<video id="video1" width="420" class="aspect-video horizontal oculto" autobuffer controls>
+			<source src="https://calendariomustangsoho2015.com/vid/video.mp4" type="video/mp4">
+			<source src="https://calendariomustangsoho2015.com/vid/video.ogg" type="video/ogg">
+			<source src="https://calendariomustangsoho2015.com/vid/video.webm" type="video/ogg">
 			No se pudo cargar el video, haz click 
 			<span id="btnSaltarVideo" href="#!" onclick="ocultarVideo();" class="btn btn-danger">aqu&iacute;</span> para saltar.
-		  </video>
-		-->
+		</video>
+		
 	</section>
 	<section id="login" class="Page">
 		<div class="Main">
