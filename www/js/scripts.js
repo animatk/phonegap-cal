@@ -521,23 +521,27 @@ $(window).load(function(){
 		}
 	});
 */
+	if(SESSION['videoStop'] != 't'){
 	
-	if(isDevice() == 'Android'){
-		VideoPlayer.play(SITE_URL+"/vid/video.mp4");
-		setTimeout(function(){
-			if(vidAct){
-				ocultarVideo();
-			}
-		}, 5200);
-		
+		if(isDevice() == 'Android'){
+			VideoPlayer.play(SITE_URL+"/vid/video.mp4");
+			setTimeout(function(){
+				if(vidAct){
+					ocultarVideo();
+				}
+			}, 5200);
+			
+		}else{
+			$('.escape-video').addClass('oculto');
+			$('#video1').removeClass('oculto');
+				VIDEO = document.getElementById("video1"); 
+				VIDEO.play(); 
+				VIDEO.onended = function(e) {
+				  ocultarVideo();
+			  };
+		}
 	}else{
-		$('.escape-video').addClass('oculto');
-		$('#video1').removeClass('oculto');
-			VIDEO = document.getElementById("video1"); 
-			VIDEO.play(); 
-			VIDEO.onended = function(e) {
-		      ocultarVideo();
-		  };
+		ocultarVideo();
 	}
 	
 	
@@ -596,6 +600,8 @@ function ocultarVideo(){
 		VIDEO.pause();
 	}
 	
+	SESSION['videoStop'] = 't';
+	
 	if(SESSION['hasCode']){
 		if(hasFB || hasGC || hasMW){
 			ak_navigate('#video', '#home', 'toLeft');
@@ -653,6 +659,8 @@ function listarMeses(){
 	}
 	
 	listaMeses.html(output);
+	
+	SESSION.removeItem('videoStop');
 }
 
 function btnConozca(){

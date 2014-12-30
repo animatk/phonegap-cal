@@ -475,6 +475,7 @@ header a{
 	height: 100%;
 	max-width: 280px;
 	padding-top: 60px;
+	padding-bottom: 40px;
 	position: absolute;
 	background: #1F1F1F;
 	overflow-y: scroll;
