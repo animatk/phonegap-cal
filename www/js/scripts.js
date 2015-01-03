@@ -596,7 +596,7 @@ function ocultarVideo(){
 	vidAct = false;
 	
 //	YTPlayer.stopVideo();
-	if(isDevice() != 'Android'){
+	if(isDevice() != 'Android' && SESSION['videoStop'] != 't'){
 		VIDEO.pause();
 	}
 	
