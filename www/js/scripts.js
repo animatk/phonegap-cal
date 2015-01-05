@@ -10,7 +10,7 @@ var MesesData = [
 	,{mes:"Junio",      mes_nu: 5,  year: 2015, desc : "Mustang Mach I 1968",     info : "Bullitt (1968)"}
 	,{mes:"Julio",      mes_nu: 6,  year: 2015, desc : "Mustang Mach I 1968",     info : "Lock Up (1989)"}
 	,{mes:"Agosto",     mes_nu: 7,  year: 2015, desc : "Mustang 1967",            info : "Gone in 60 Seconds (2000)"}
-	,{mes:"Septiembre", mes_nu: 8,  year: 2015, desc : " Mustang Fastback 1965",  info : "Drive (2011)"}
+	,{mes:"Septiembre", mes_nu: 8,  year: 2015, desc : "Mustang Fastback 1965",  info : "Drive (2011)"}
 	,{mes:"Octubre",    mes_nu: 9,  year: 2015, desc : "Mustang 1965",            info : "James Bond \"Goldfinger\" (1964)"}
 	,{mes:"Noviembre",  mes_nu: 10, year: 2015, desc : "Mustang GT Premium 2013", info : "Fast & Furious 6 (2013)"}
 	,{mes:"Diciembre",  mes_nu: 11, year: 2015, desc : "Mustang Mach I 1968",     info : "Bullitt (1968)" }
@@ -394,12 +394,12 @@ $(function(){
 		$input = $(this).parent().find('input, select');
 		ak_showtip( $input, $input.attr('placeholder'));
 	});
-
+/*
 	var fbcookie = $.parseJSON( getCookie('fbtoken') ); 
 	if(fbcookie != null){
 		SESSION['fbtoken'] = fbcookie.ide;
 	}
-	
+*/	
 	if(isDevice() == 'Android'){
 		$('.escape-video').removeClass('oculto');
 	}else if(isDevice() == 'iPhone'){
