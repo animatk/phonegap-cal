@@ -526,7 +526,7 @@ $(window).load(function(){
 	if(SESSION['videoStop'] != 't'){
 	
 		if(isDevice() == 'Android'){
-			VideoPlayer.play(SITE_URL+"/vid/video.mp4");
+			VideoPlayer.play(SITE_URL+"/vid/video-movil.mp4");
 			setTimeout(function(){
 				if(vidAct){
 					ocultarVideo();
@@ -679,7 +679,7 @@ function btnDetrasde(){
 	$('#menu').removeClass('toCenter'); 
 	
 	if(isDevice() == 'Android'){
-		VideoPlayer.play(SITE_URL+"/vid/video.mp4");
+		VideoPlayer.play(SITE_URL+"/vid/video-movil.mp4");
 	}else{
 		$('section').removeClass('toCenter');
 		$('#video').addClass('toCenter');
@@ -1092,6 +1092,7 @@ function monthDiff(d1, d2) {
 	}
 	
 	function goo_login() {
+		SESSION['videoStop'] = 't';
 		openLog.login({
 			url: 'https://accounts.google.com/o/oauth2/auth'
 			,path: ''
@@ -1331,6 +1332,7 @@ function gc_set_event(d, func)
 	
 	function fb_login(){
 		$('.fbLogin').text('Espere...').addClass('btn-default');
+		SESSION['videoStop'] = 't';
 		openLog.login({
 			url: 'https://www.facebook.com/dialog/oauth'
 			,path: ''
@@ -1505,6 +1507,7 @@ function fb_set_event(d, func)
 	
 	function mw_login(){
 		$('.mwLogin').text('Espere...');
+		SESSION['videoStop'] = 't';
 		//
 		openLog.login({
 			url: 'https://login.live.com/oauth20_authorize.srf'

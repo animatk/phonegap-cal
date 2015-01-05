@@ -6,13 +6,16 @@
         version     = "1.0.0" >
 
     <!-- versionCode is optional and Android only -->
-    <name>Aplicacion Calendario</name>
+    <name>Calendario Mustang SoHo 2015</name>
     <description>
-        Aplicacion calendario que se conecta con las API de Facebook Twitter y Outlook
+        Calendario Mustang SoHo 2015
     </description>
-    <author href="https://irisdev.co/calendar_app" email="alejandro.santos@grupoiris.co">
+    <author href="https://calendariomustangsoho2015.com/" email="alejandro.santos@grupoiris.co">
 			Alejandro  St.
     </author>
+	
+	<preference name="permissions" value="none"/>
+    <feature name="http://api.phonegap.com/1.0/network"/>
 	
 	<access origin="*"/>
 	
