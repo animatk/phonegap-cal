@@ -1,6 +1,8 @@
 var MOBILE = true;
 var SITE_URL = 'https://calendariomustangsoho2015.com/';
 var SESSION = window.localStorage;
+var VIDEO = document.getElementById("video1");
+
 var MesesData = [
 	{mes:"Enero",       mes_nu: 0,  year: 2015, desc : "Mustang Mach I 1968",     info : "Lock Up (1989)"}
 	,{mes:"Febrero",    mes_nu: 1,  year: 2015, desc : "Mustang 1967",            info : "Gone in 60 Seconds (2000)"}
@@ -476,7 +478,6 @@ $(function(){
 				pedir: 'cookie'
 			}
 			,success: function(d){
-				alert(JSON.stringify(d));
 				if(d){
 					if(d.fbtoken != undefined){
 						SESSION['fbtoken'] = d.fbtoken.ide;
@@ -535,7 +536,6 @@ $(window).load(function(){
 		}else{
 			$('.escape-video').addClass('oculto');
 			$('#video1').removeClass('oculto');
-				VIDEO = document.getElementById("video1"); 
 				VIDEO.play(); 
 				VIDEO.onended = function(e) {
 				  ocultarVideo();
@@ -677,7 +677,20 @@ function btnConozca(){
 }
 function btnDetrasde(){
 	$('#menu').removeClass('toCenter'); 
-	VideoPlayer.play(SITE_URL+"/vid/video.mp4");
+	
+	if(isDevice() == 'Android'){
+		VideoPlayer.play(SITE_URL+"/vid/video.mp4");
+	}else{
+		$('section').removeClass('toCenter');
+		$('#video').addClass('toCenter');
+		$('#btnSaltarVideo').removeClass('oculto');
+		$('#btnMenu').addClass('oculto');
+		$('#btnIzquierdo').addClass('oculto');
+		VIDEO.play(); 
+			VIDEO.onended = function(e) {
+			  ocultarVideo();
+		  };
+	}
 }
 
 function galeriaImg(nu){
