@@ -476,7 +476,7 @@ $(function(){
 				pedir: 'cookie'
 			}
 			,success: function(d){
-				alert(d);
+				alert(JSON.stringify(d));
 				if(d){
 					if(d.fbtoken != undefined){
 						SESSION['fbtoken'] = d.fbtoken.ide;
