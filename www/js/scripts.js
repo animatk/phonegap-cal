@@ -499,6 +499,23 @@ $(function(){
 			}
 		});
 	}
+	
+	if(isDevice() == "Android"){
+	document.addEventListener("deviceready", appReady, false);
+		function appReady()
+		{   
+			document.addEventListener('backbutton', function(e){
+				if($('#btnIzquierdo').hasClass('oculto')){
+					if(confirm("Desea salir de la aplicación?")){
+						 navigator.app.exitApp();
+					}
+				}else{
+					$('#btnIzquierdo').click();
+				}	
+					  
+			}, false);
+		}
+	}
 });
 
 function isDevice(){

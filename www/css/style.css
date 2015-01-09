@@ -479,6 +479,7 @@ header a{
 	position: absolute;
 	background: #1F1F1F;
 	overflow-y: scroll;
+	z-index: 2;
 }
 
 .padding20 header{
@@ -494,8 +495,16 @@ header a{
 	font-size: 17px;
 	padding: 15px;
 	text-decoration: none;
-	border-bottom: 2px groove rgba(110, 110, 110, 0.30);
-	
+	border-bottom: 2px groove rgba(110, 110, 110, 0.30);	
+}
+
+.menu-back{
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 1;
+	position: absolute;
 }
 
 /* SECCION DEL CALENDARIO */
