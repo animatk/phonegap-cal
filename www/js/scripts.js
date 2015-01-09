@@ -502,6 +502,7 @@ $(function(){
 	
 	if(isDevice() == "Android"){
 	document.addEventListener("deviceready", appReady, false);
+		//menulat
 		function appReady()
 		{   
 			document.addEventListener('backbutton', function(e){
