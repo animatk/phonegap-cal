@@ -512,6 +512,7 @@ $(function(){
 					}
 				}else{
 					$('#btnIzquierdo').click();
+					$('body').removeClass('fullSrc');
 				}	
 					  
 			}, false);
