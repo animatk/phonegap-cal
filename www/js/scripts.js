@@ -19,6 +19,30 @@ var MesesData = [
 	,{mes:"Enero",      mes_nu: 0,  year: 2016, desc : "Mustang GT 50 Años"}
 ];
 
+
+var FestivosColombia = [
+	{title:"Festivo en Colombia - Año nuevo",color:"rgba(225, 155, 30, 0.8)",start:"2015-01-01T00:00:00"}
+	,{title:"Festivo en Colombia - Día de los Reyes Magos",color:"rgba(225, 155, 30, 0.8)",start:"2015-01-12T00:00:00"}
+	,{title:"Festivo en Colombia - Día de San José",color:"rgba(225, 155, 30, 0.8)",start:"2015-03-23T00:00:00"}
+	,{title:"Festivo en Colombia - Jueves Santo",color:"rgba(225, 155, 30, 0.8)",start:"2015-04-02T00:00:00"}
+	,{title:"Festivo en Colombia - Viernes Santo",color:"rgba(225, 155, 30, 0.8)",start:"2015-04-03T00:00:00"}
+	,{title:"Festivo en Colombia - Día del Trabajo",color:"rgba(225, 155, 30, 0.8)",start:"2015-05-01T00:00:00"}
+	,{title:"Festivo en Colombia - Día de la Ascensión",color:"rgba(225, 155, 30, 0.8)",start:"2015-05-18T00:00:00"}
+	,{title:"Festivo en Colombia - Corpus Christi",color:"rgba(225, 155, 30, 0.8)",start:"2015-06-08T00:00:00"}
+	,{title:"Festivo en Colombia - Sagrado Corazón",color:"rgba(225, 155, 30, 0.8)",start:"2015-06-15T00:00:00"}
+	,{title:"Festivo en Colombia - San Pedro y San Pablo",color:"rgba(225, 155, 30, 0.8)",start:"2015-06-29T00:00:00"}
+	,{title:"Festivo en Colombia - Día de la Independencia",color:"rgba(225, 155, 30, 0.8)",start:"2015-07-20T00:00:00"}
+	,{title:"Festivo en Colombia - Batalla de Boyacá",color:"rgba(225, 155, 30, 0.8)",start:"2015-08-07T00:00:00"}
+	,{title:"Festivo en Colombia - La asunción de la Virgen",color:"rgba(225, 155, 30, 0.8)",start:"2015-08-17T00:00:00"}
+	,{title:"Festivo en Colombia - Día de la Raza",color:"rgba(225, 155, 30, 0.8)",start:"2015-10-12T00:00:00"}
+	,{title:"Festivo en Colombia - Todos los Santos",color:"rgba(225, 155, 30, 0.8)",start:"2015-11-02T00:00:00"}
+	,{title:"Festivo en Colombia - Independencia de Cartagena",color:"rgba(225, 155, 30, 0.8)",start:"2015-11-16T00:00:00"}
+	,{title:"Festivo en Colombia - Día de la Inmaculada Concepción",color:"rgba(225, 155, 30, 0.8)",start:"2015-12-08T00:00:00"}
+	,{title:"Festivo en Colombia - Día de Navidad",color:"rgba(225, 155, 30, 0.8)",start:"2015-12-25T00:00:00"}
+	,{title:"Festivo en Colombia - Año nuevo",color:"rgba(225, 155, 30, 0.8)",start:"2016-01-01T00:00:00"}
+	,{title:"Festivo en Colombia - Día de los Reyes Magos",color:"rgba(225, 155, 30, 0.8)",start:"2016-01-11T00:00:00"}
+];
+
 function loadCont(url, func){
 	jQuery.ajax({
 		type : 'GET',
@@ -865,6 +889,7 @@ function init_calendar(){
 		editable: true
 		,selectable: true
 		,selectHelper: true
+		,events: FestivosColombia
 	//	,eventLimit: true
 		,header: {
 			left: '',
