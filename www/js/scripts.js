@@ -542,7 +542,30 @@ $(function(){
 			}, false);
 		}
 	}
+	
+	var TerminosCheck = $('#TerminosCheck');
+	
+	if(SESSION['terminos'] != 't'){
+		TerminosCheck.val("");
+		TerminosCheck.attr('checked', false);
+	}else{
+		TerminosCheck.val("t");
+		TerminosCheck.attr('checked', true);
+	}
 });
+
+function TCheck(callback){
+	var TerminosCheck = $('#TerminosCheck');
+	
+	if(TerminosCheck.val() == 't'){
+		SESSION['terminos'] = 't';
+		ak_showtip('remove');
+		callback();
+	}else{
+		ak_showtip(TerminosCheck,'Debe aceptar los términos y condiciones para poder ingresar.');
+	}
+	
+}
 
 function isDevice(){
 	return (navigator.userAgent.match(/iPad/i))  == "iPad" ? "iPad" : (navigator.userAgent.match(/iPhone/i)

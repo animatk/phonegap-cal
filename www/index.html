@@ -102,7 +102,11 @@
 					</div>
 				</form>
 				<div class="LogearCon">
-					<button onclick="ak_navigate('#login', '#home'); $('header').removeClass('arriba'); listarMeses(); init_calendar();" class="btn btn-info btn-lg btn-entrar"> ENTRAR </button>
+					<span><input type="checkbox" id="TerminosCheck" value="" onchange="var i = this; if(i.value == ''){ i.value = 't'; }else{ i.value = ''; }" /> Acepto <a href="#!" onclick="window.open('https://calendariomustangsoho2015.com/#terminos=true', '_system');" style="color:#fff;">términos y condiciones</a></span>
+					<br/>
+					<br/>
+					<button onclick="TCheck(function(){ ak_navigate('#login', '#home'); $('header').removeClass('arriba'); listarMeses(); init_calendar(); });" class="btn btn-info btn-lg btn-entrar"> ENTRAR </button>
+					
 					<!--
 					<span onclick="goo_login();" class="btn btn-danger gcLogin margin-input"> Con&eacute;ctate con Google Plus </span>
 					<span onclick="mw_login();" class="btn btn-success mwLogin"> Con&eacute;ctate con Outlook </span>
@@ -110,18 +114,26 @@
 					<div class="sincronizar-con">
 						sincronice con el calendario de su preferencia.
 					</div>
-					<span onclick="fb_login();" class="btn btn-primary fbLogin margin-input">
-						<img src="img/icon-fb.png" alt="Facebook" /> 
-						Sincronizar con Facebook 
-					</span>
-					<span onclick="goo_login();" class="btn btn-danger gcLogin margin-input"> 
-						<img src="img/icon-gp.png" alt="Google+" />
-						Sincronizar con Google 
-					</span>
-					<span onclick="mw_login();" class="btn btn-info mwLogin">
-						<img src="img/icon-mw.png" alt="Outlook" />
-						Sincronizar con Outlook 
-					</span>
+					<div class="row">
+						<div class="col-sm-4">
+							<span onclick="TCheck(function(){ fb_login(); });" class="btn btn-primary fbLogin margin-input">
+								<img src="img/icon-fb.png" alt="Facebook" /> 
+								Sincronizar con Facebook 
+							</span>
+						</div>
+						<div class="col-sm-4">
+							<span onclick="TCheck(function(){ goo_login(); });" class="btn btn-danger gcLogin margin-input"> 
+								<img src="img/icon-gp.png" alt="Google+" />
+								Sincronizar con Google 
+							</span>
+						</div>
+						<div class="col-sm-4">
+							<span onclick="TCheck(function(){ mw_login(); });" class="btn btn-info mwLogin">
+								<img src="img/icon-mw.png" alt="Outlook" />
+								Sincronizar con Outlook 
+							</span>
+						</div>
+					</div>
 				</div>
 				<div class="login-brands">
 					<img src="img/logos.png" alt="Mustang Ford SoHo" />
