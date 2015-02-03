@@ -3,6 +3,8 @@ SITE_URL = 'https://calendariomustangsoho2015.com/',
 SESSION = window.localStorage,
 WIDTH = document.body.clientWidth,
 HEIGHT = document.body.clientHeight,
+VIDEORUN = true,
+OBJACT = 0,
 VIDEO = document.getElementById("video1");
 
 var MesesData = [
@@ -535,9 +537,14 @@ $(function(){
 		function appReady()
 		{   
 			document.addEventListener('backbutton', function(e){
+				
 				if($('#btnIzquierdo').hasClass('oculto')){
-					if(confirm("Desea salir de la aplicación?")){
-						 navigator.app.exitApp();
+					if(VIDEORUN === false){
+						if(confirm("Desea salir de la aplicación?")){
+							 navigator.app.exitApp();
+						}
+					}else{
+						VIDEORUN = false;
 					}
 				}else{
 					$('#btnIzquierdo').click();
@@ -770,7 +777,7 @@ function listarMeses(){
 	}
 	
 	listaMeses.html(output);
-	$('.gallery-months').html(images).width((WIDTH + 10) * (MesesData.length-1));
+	$('.gallery-months').html(images).width( WIDTH * MesesData.length);
 	
 	SESSION.removeItem('videoStop');
 }
@@ -821,7 +828,7 @@ function galeriaImg(nu){
 			
 		}
 		//
-		if(n < 1){
+		if(n<1){
 			prev.css('display', 'none');
 		}else{
 			prev.css('display', 'block');
