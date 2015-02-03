@@ -1,7 +1,9 @@
-var MOBILE = true;
-var SITE_URL = 'https://calendariomustangsoho2015.com/';
-var SESSION = window.localStorage;
-var VIDEO = document.getElementById("video1");
+var MOBILE = true,
+SITE_URL = 'https://calendariomustangsoho2015.com/',
+SESSION = window.localStorage,
+WIDTH = document.body.clientWidth,
+HEIGHT = document.body.clientHeight,
+VIDEO = document.getElementById("video1");
 
 var MesesData = [
 	{mes:"Enero",       mes_nu: 0,  year: 2015, desc : "Mustang Mach I 1968",     info : "Lock Up (1989)"}
@@ -430,7 +432,10 @@ $(function(){
 		$('.escape-video').removeClass('oculto');
 	}else if(isDevice() == 'iPhone'){
 		$('body').addClass('padding20');
-		
+	}
+	
+	if(HEIGHT < WIDTH){
+		$('body').addClass('horizontal');
 	}
 	
 	if( !MOBILE )
@@ -610,12 +615,47 @@ $(window).load(function(){
 	}else{
 		ocultarVideo();
 	}
-	
-	
 
 //	$('#video-frame').css('background-image', 'url(img/video.gif?n='+Math.floor((Math.random() * 9999) + 1000)+')');
 	
+	$('#imagen').swipe({
+		//Generic swipe handler for all directions
+		swipe:function(event, direction, distance, duration, fingerCount, fingerData) { 
+		  var tot = MesesData.length-1,
+		  actual = parseInt($('.gallery-months').attr('data-show'));
+		  if(direction == 'left' && actual < tot){
+			  loadCalImage(actual+1, '#calendario', true);
+		  }else if(direction == 'right' && actual > 0){
+			  loadCalImage(actual-1, '#calendario', true);
+		  }
+		}
+		//distance triggers swipe
+		,threshold: 75
+	});
+	
+	$(".gallery-months li").swipe({
+		pinchStatus:function(event, phase, direction, distance , duration , fingerCount, pinchZoom) {
 
+			// "Pinch zoom scale "+pinchZoom+"  <br/>Distance pinched "+distance+" <br/>Direction " + direction
+			  $(this).find('img').css(100 * pinchZoom);
+		},
+		fingers:2,  
+		pinchThreshold:0  
+	});
+});
+
+$(window).resize(function(){
+	WIDTH = document.body.clientWidth;
+	HEIGHT = document.body.clientHeight;
+	
+	$('.gallery-months li').width( WIDTH );
+	$('.gallery-months').width( WIDTH * (MesesData.length-1) );
+	
+	if(HEIGHT < WIDTH){
+		$('body').addClass('horizontal');
+	}else{
+		$('body').removeClass('horizontal');
+	}
 });
 
 function IniciarReloj() {
@@ -700,21 +740,25 @@ function ak_navigate(from, to, effect){
 
 function listarMeses(){
 
-	var listaMeses = $('#listaMeses');
-	var output = "";
-	var out_fin = '</div></div>';
-	var mesActual = new Date().getMonth();
+	var listaMeses = $('#listaMeses')
+	,output = ""
+	,images = ""
+	,out_fin = '</div></div>'
+	,mesActual = new Date().getMonth();
+	
 	listaMeses.html("");
 
 	for(i in MesesData){
-		var obj = MesesData[i];
-		var actual = (mesActual == obj.mes_nu)? 'activo': "";
-		var info = (undefined != obj.info)? 'Película: '+obj.info : "";
-		var out_ini = '<div class="col-sm-6"><div class="mes-cont '+actual+'">';
-		var out_foto = '<div class="mes-foto" onclick="loadCalImage('+i+');" style="background-image: url(img/meses/thumbnail_'+i+'.jpg);"><div class="foto-sup"><img src="img/cal-verimagen.png" alt="Ver Imagen" /></div></div>';
-		var out_deta = '<div class="mes-deta" onclick="loadCalMes('+i+');"><div class="mes-deta-info"><div class="mes-deta-int"><div class="mes-titl">'+obj.mes+'</div><div class="mes-desc">'+obj.desc+'<br/>'+info+'</div></div></div><div class="mes-deta-sub"><span class="mes-deta-ver"><img src="img/cal-vercal.png" alt="Ver Calendario" /></span></div></div>';
+		var obj = MesesData[i]
+		,actual = (mesActual == obj.mes_nu)? 'activo': ""
+		,info = (undefined != obj.info)? 'Película: '+obj.info : ""
+		,out_ini = '<div class="col-sm-6"><div class="mes-cont '+actual+'">'
+		,out_foto = '<div class="mes-foto" onclick="loadCalImage('+i+');" style="background-image: url(img/meses/thumbnail_'+i+'.jpg);"><div class="foto-sup"><img src="img/cal-verimagen.png" alt="Ver Imagen" /></div></div>'
+		,out_deta = '<div class="mes-deta" onclick="loadCalMes('+i+');"><div class="mes-deta-info"><div class="mes-deta-int"><div class="mes-titl">'+obj.mes+'</div><div class="mes-desc">'+obj.desc+'<br/>'+info+'</div></div></div><div class="mes-deta-sub"><span class="mes-deta-ver"><img src="img/cal-vercal.png" alt="Ver Calendario" /></span></div></div>';
 		
 		output += out_ini;
+
+		images += '<li class="" style="width:'+WIDTH+'px;"><img src="img/meses/'+i+'.jpg" alt="" /></li>';
 		
 		if(i%2==0){
 			output += out_foto+out_deta;
@@ -726,6 +770,7 @@ function listarMeses(){
 	}
 	
 	listaMeses.html(output);
+	$('.gallery-months').html(images).width(WIDTH * (MesesData.length-1));
 	
 	SESSION.removeItem('videoStop');
 }
@@ -788,20 +833,29 @@ function galeriaImg(nu){
 	});
 }
 
-function loadCalImage(n, f){
+function loadCalImage(n, f, swipe){
 	var obj = MesesData[n];
 	var contImage = $('#imagen');
 	var from = (f != undefined)? f : '#home';
-	contImage.css('background-image', 'url(img/meses/'+n+'.jpg)');
-	ak_navigate( from , '#imagen');
-	btnIzq({
-		text : 'Volver'
-		,from : '#imagen'
-		,to : '#home'
-		,fx : 'toRight'
-	});
+	
+	$('.gallery-months')
+	.css('transform', 'translate3d(-'+(WIDTH * n)+'px, 0, 0)')
+	.attr('data-show', n);
+	
+	if(swipe){
+		loadCalMes(n, swipe);
+	}else{
+		ak_navigate( from , '#imagen');
+		btnIzq({
+			text : 'Volver'
+			,from : '#imagen'
+			,to : '#home'
+			,fx : 'toRight'
+		});
+	}
 }
-function loadCalMes(n){
+
+function loadCalMes(n, swipe){
 	var obj = MesesData[n];
 	$('.cal-mes').html( obj.mes +' de '+ obj.year );
 	$('.cal-mh').css('background-image', 'url(img/meses/thumbnail_'+n+'.jpg)');
@@ -819,14 +873,15 @@ function loadCalMes(n){
 	var m = moment(d);
 	$('.Calendario').fullCalendar( 'gotoDate', m );
 
-	ak_navigate('#home', '#calendario');
-
-	btnIzq({
-		text : 'Volver'
-		,from : '#calendario'
-		,to : '#home'
-		,fx : 'toRight'
-	});
+	if( !swipe ){
+		ak_navigate('#home', '#calendario');
+		btnIzq({
+			text : 'Volver'
+			,from : '#calendario'
+			,to : '#home'
+			,fx : 'toRight'
+		});
+	}
 }
 
 function btnIzq(obj){

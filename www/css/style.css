@@ -622,6 +622,40 @@ header a{
 	padding-bottom:0; padding-top: 55px;
 }
 
+
+/* gallery */
+.gallery-months{
+	margin: 0;
+	padding: 0;
+	-webkit-transition-duration: .25s;
+		    transition-duration: .25s;
+}
+.gallery-months li{
+	float: left;
+	width: 100%;
+	display: block;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	height: 100%;
+	background-size: contain;
+	background-position: center;
+	background-repeat: no-repeat;
+	position: relative;
+}
+.gallery-months li img{
+	width: 100%;
+	position: absolute;
+	width: 100%;
+	left: 0;
+	top: 30%;
+}
+.horizontal .gallery-months li img{
+	top: 0;
+}
+
+/* end gallery */
+
 .Page {
    top: 0; 
    left: 0; 
