@@ -410,7 +410,7 @@ header a{
 .mes-cont.activo{
 	background: rgba(0,0,0,0.2);
 }
-.mes-cont:hover .mes-foto .foto-sup,
+
 .activo .mes-foto .foto-sup{
 	opacity: 0;
 }

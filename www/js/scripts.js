@@ -637,7 +637,7 @@ $(window).load(function(){
 		pinchStatus:function(event, phase, direction, distance , duration , fingerCount, pinchZoom) {
 
 			// "Pinch zoom scale "+pinchZoom+"  <br/>Distance pinched "+distance+" <br/>Direction " + direction
-			  $(this).find('img').css(100 * pinchZoom);
+			  $(this).find('img').css('width', 100 * pinchZoom);
 		},
 		fingers:2,  
 		pinchThreshold:0  
