@@ -770,7 +770,7 @@ function listarMeses(){
 	}
 	
 	listaMeses.html(output);
-	$('.gallery-months').html(images).width(WIDTH * (MesesData.length-1));
+	$('.gallery-months').html(images).width((WIDTH + 10) * (MesesData.length-1));
 	
 	SESSION.removeItem('videoStop');
 }
