@@ -757,10 +757,8 @@ function listarMeses(){
 	
 	SESSION.removeItem('videoStop');
 	
-	$('#imagen').swipe({
-		//Generic swipe handler for all directions
+	$('.gallery-months li').swipe({	
 		swipe:function(event, direction, distance, duration, fingerCount, fingerData) { 
-		 
 			if(fingerCount == 1){
 				var tot = MesesData.length-1,
 				actual = parseInt($('.gallery-months').attr('data-show'));
@@ -771,21 +769,16 @@ function listarMeses(){
 				}
 			}
 		}
-		//distance triggers swipe
 		,threshold: 0
-	});
-	
-	$('.gallery-months li').swipe({		
-		pinchStatus: function(event, phase, direction, distance , duration , fingerCount, pinchZoom) {
+		,pinchStatus: function(event, phase, direction, distance , duration , fingerCount, pinchZoom) {
 			// "Pinch zoom scale "+pinchZoom+"  <br/>Distance pinched "+distance+" <br/>Direction " + direction
 			if(fingerCount == 2){
 				var elm = $(this).find('img'),
 				ac_width = elm.width();
-				elm.css('width', (ac_width * pinchZoom));
+				elm.css('width', (ac_width + pinchZoom));
 			}
-		},
-		fingers:2,  
-		pinchThreshold:0  
+		} 
+		,pinchThreshold:0  
 	});
 }
 
