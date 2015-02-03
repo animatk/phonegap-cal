@@ -624,31 +624,7 @@ $(window).load(function(){
 	}
 
 //	$('#video-frame').css('background-image', 'url(img/video.gif?n='+Math.floor((Math.random() * 9999) + 1000)+')');
-	
-	$('#imagen').swipe({
-		//Generic swipe handler for all directions
-		swipe:function(event, direction, distance, duration, fingerCount, fingerData) { 
-		  var tot = MesesData.length-1,
-		  actual = parseInt($('.gallery-months').attr('data-show'));
-		  if(direction == 'left' && actual < tot){
-				loadCalImage(actual+1, '#calendario', true);
-		  }else if(direction == 'right' && actual > 0){
-				loadCalImage(actual-1, '#calendario', true);
-		  }
-		}
-		//distance triggers swipe
-		,threshold: 0
-	});
-	
-	$(".gallery-months li").swipe({
-		pinchStatus:function(event, phase, direction, distance , duration , fingerCount, pinchZoom) {
 
-			// "Pinch zoom scale "+pinchZoom+"  <br/>Distance pinched "+distance+" <br/>Direction " + direction
-			  $(this).find('img').css('width', (100 * pinchZoom));
-		},
-		fingers:2,  
-		pinchThreshold:0  
-	});
 });
 
 $(window).resize(function(){
@@ -780,6 +756,30 @@ function listarMeses(){
 	$('.gallery-months').html(images).width( WIDTH * MesesData.length);
 	
 	SESSION.removeItem('videoStop');
+	
+	$('#imagen').swipe({
+		//Generic swipe handler for all directions
+		swipe:function(event, direction, distance, duration, fingerCount, fingerData) { 
+		  var tot = MesesData.length-1,
+		  actual = parseInt($('.gallery-months').attr('data-show'));
+		  if(direction == 'left' && actual < tot){
+				loadCalImage(actual+1, '#calendario', true);
+		  }else if(direction == 'right' && actual > 0){
+				loadCalImage(actual-1, '#calendario', true);
+		  }
+		}
+		//distance triggers swipe
+		,threshold: 0
+	});
+	
+	$('.gallery-months li').swipe({		
+		pinchStatus: function(event, phase, direction, distance , duration , fingerCount, pinchZoom) {
+			// "Pinch zoom scale "+pinchZoom+"  <br/>Distance pinched "+distance+" <br/>Direction " + direction
+			  $(this).find('img').css('width', (100 * pinchZoom));
+		},
+		fingers:2,  
+		pinchThreshold:0  
+	});
 }
 
 function btnConozca(){
