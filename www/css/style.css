@@ -642,6 +642,7 @@ header a{
 	background-position: center;
 	background-repeat: no-repeat;
 	position: relative;
+	overflow: auto;
 }
 .gallery-months li img{
 	width: 100%;
