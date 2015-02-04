@@ -4,6 +4,8 @@ SESSION = window.localStorage,
 WIDTH = document.body.clientWidth,
 HEIGHT = document.body.clientHeight,
 VIDEORUN = true,
+gallery,
+GALERIA = false,
 OBJACT = 0,
 VIDEO = document.getElementById("video1");
 
@@ -540,12 +542,18 @@ $(function(){
 				
 				if($('#btnIzquierdo').hasClass('oculto')){
 					if(VIDEORUN === false){
-						if(confirm("Desea salir de la aplicación?")){
-							 navigator.app.exitApp();
+						if(GALERIA === false){
+							if(confirm("Desea salir de la aplicación?")){
+								 navigator.app.exitApp();
+							}
+						}else{
+							gallery.close();
 						}
+						
 					}else{
 						VIDEORUN = false;
 					}
+					
 				}else{
 					$('#btnIzquierdo').click();
 					$('body').removeClass('fullSrc');
@@ -792,8 +800,14 @@ function btnConozca(){
 	};
 	
 	// Initializes and opens PhotoSwipe
-	var Autos_Gallery = new PhotoSwipe( pswpElement, PhotoSwipeUI_Default, galitems, options);
-	Autos_Gallery.init();
+	gallery = new PhotoSwipe( pswpElement, PhotoSwipeUI_Default, galitems, options);
+	gallery.init();
+	
+	GALERIA = true;
+	
+	gallery.listen('close', function() {
+		GALERIA = false;
+	});
 }
 function btnDetrasde(){
 	$('#menu').removeClass('toCenter'); 
@@ -846,8 +860,14 @@ function loadCalImage(n, f, swipe){
 	};
 	
 	// Initializes and opens PhotoSwipe
-	var Chicas_Gallery = new PhotoSwipe( pswpElement, PhotoSwipeUI_Default, galitems, options);
-	Chicas_Gallery.init();
+	gallery = new PhotoSwipe( pswpElement, PhotoSwipeUI_Default, galitems, options);
+	gallery.init();
+	
+	GALERIA = true;
+	
+	gallery.listen('close', function() {
+		GALERIA = false;
+	});
 }
 
 function loadCalMes(n, swipe){
