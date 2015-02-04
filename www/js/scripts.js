@@ -757,7 +757,7 @@ function listarMeses(){
 	
 	SESSION.removeItem('videoStop');
 	
-	$('.gallery-months li').swipe({	
+	$('#imagen').swipe({	
 		swipe:function(event, direction, distance, duration, fingerCount, fingerData) { 
 			if(fingerCount == 1){
 				var tot = MesesData.length-1,
@@ -770,14 +770,26 @@ function listarMeses(){
 			}
 		}
 		,threshold: 0
-		,pinchStatus: function(event, phase, direction, distance , duration , fingerCount, pinchZoom) {
+	});
+	
+	$('.gallery-months li').swipe({	
+		pinchIn: function(event, phase, direction, distance , duration , fingerCount, pinchZoom) {
 			// "Pinch zoom scale "+pinchZoom+"  <br/>Distance pinched "+distance+" <br/>Direction " + direction
-			if(fingerCount == 2){
-				var elm = $(this).find('img'),
-				ac_width = elm.width();
-				elm.css('width', (ac_width + pinchZoom));
-			}
-		} 
+			var elm = $(this).find('img'),
+			ac_width = elm.width();
+			console.log(ac_width);
+			elm.css('width', (ac_width + (distance/3)));
+
+		}
+		,pinchOut: function(event, phase, direction, distance , duration , fingerCount, pinchZoom) {
+			// "Pinch zoom scale "+pinchZoom+"  <br/>Distance pinched "+distance+" <br/>Direction " + direction
+			var elm = $(this).find('img'),
+			ac_width = elm.width();
+			console.log(ac_width);
+			elm.css('width', (ac_width - (distance/3)));
+		}
+		
+		,fingers:2  
 		,pinchThreshold:0  
 	});
 }
