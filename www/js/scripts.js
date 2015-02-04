@@ -813,6 +813,7 @@ function btnDetrasde(){
 	$('#menu').removeClass('toCenter'); 
 	
 	if(isDevice() == 'Android'){
+		VIDEORUN = true;
 		VideoPlayer.play(SITE_URL+"/vid/video-movil.mp4");
 	}else{
 		$('section').removeClass('toCenter');
