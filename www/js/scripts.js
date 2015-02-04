@@ -631,9 +631,6 @@ $(window).resize(function(){
 	WIDTH = document.body.clientWidth;
 	HEIGHT = document.body.clientHeight;
 	
-	$('.gallery-months li').width( WIDTH );
-	$('.gallery-months').width( WIDTH * (MesesData.length-1) );
-	
 	if(HEIGHT < WIDTH){
 		$('body').addClass('horizontal');
 	}else{
@@ -729,8 +726,11 @@ function listarMeses(){
 	,out_fin = '</div></div>'
 	,mesActual = new Date().getMonth();
 	
+		// build items array
+	
 	listaMeses.html("");
-
+	
+	
 	for(i in MesesData){
 		var obj = MesesData[i]
 		,actual = (mesActual == obj.mes_nu)? 'activo': ""
@@ -738,10 +738,7 @@ function listarMeses(){
 		,out_ini = '<div class="col-sm-6"><div class="mes-cont '+actual+'">'
 		,out_foto = '<div class="mes-foto" onclick="loadCalImage('+i+');" style="background-image: url(img/meses/thumbnail_'+i+'.jpg);"><div class="foto-sup"><img src="img/cal-verimagen.png" alt="Ver Imagen" /></div></div>'
 		,out_deta = '<div class="mes-deta" onclick="loadCalMes('+i+');"><div class="mes-deta-info"><div class="mes-deta-int"><div class="mes-titl">'+obj.mes+'</div><div class="mes-desc">'+obj.desc+'<br/>'+info+'</div></div></div><div class="mes-deta-sub"><span class="mes-deta-ver"><img src="img/cal-vercal.png" alt="Ver Calendario" /></span></div></div>';
-		
 		output += out_ini;
-
-		images += '<li class="" style="width:'+WIDTH+'px;"><img src="img/meses/'+i+'.jpg" alt="" /></li>';
 		
 		if(i%2==0){
 			output += out_foto+out_deta;
@@ -753,57 +750,50 @@ function listarMeses(){
 	}
 	
 	listaMeses.html(output);
-	$('.gallery-months').html(images).width( WIDTH * MesesData.length);
+	//$('.gallery-months').html(images).width( WIDTH * MesesData.length);
 	
 	SESSION.removeItem('videoStop');
-	
-	$('#imagen').swipe({	
-		swipe:function(event, direction, distance, duration, fingerCount, fingerData) { 
-			if(fingerCount == 1){
-				var tot = MesesData.length-1,
-				actual = parseInt($('.gallery-months').attr('data-show'));
-				if(direction == 'left' && actual < tot){
-					loadCalImage(actual+1, '#calendario', true);
-				}else if(direction == 'right' && actual > 0){
-					loadCalImage(actual-1, '#calendario', true);
-				}
-			}
-		}
-		,threshold: 0
-	});
-	
-	$('.gallery-months li').swipe({	
-		pinchIn: function(event, phase, direction, distance , duration , fingerCount, pinchZoom) {
-			// "Pinch zoom scale "+pinchZoom+"  <br/>Distance pinched "+distance+" <br/>Direction " + direction
-			var elm = $(this).find('img'),
-			ac_width = elm.width();
-			console.log(ac_width);
-			elm.css('width', (ac_width + (distance/3)));
 
-		}
-		,pinchOut: function(event, phase, direction, distance , duration , fingerCount, pinchZoom) {
-			// "Pinch zoom scale "+pinchZoom+"  <br/>Distance pinched "+distance+" <br/>Direction " + direction
-			var elm = $(this).find('img'),
-			ac_width = elm.width();
-			console.log(ac_width);
-			elm.css('width', (ac_width - (distance/3)));
-		}
-		
-		,fingers:2  
-		,pinchThreshold:0  
-	});
 }
 
+
+
 function btnConozca(){
-	$('section').removeClass('toCenter');
-	ak_navigate('#home', '#galeria'); 
-	galeriaImg(0);
-	btnIzq({
-		text : 'Volver'
-		,from : '#galeria'
-		,to : '#home'
-		,fx : 'toRight'
-	});
+	$('#menu').removeClass('toCenter'); 
+	
+	var pswpElement = document.querySelectorAll('.pswp')[0]
+	, alto = 640
+	, percentage = WIDTH / 960;
+	alto *= percentage;
+	var height = parseInt(alto),
+	galitems = [];
+	
+	for(var i=0; i<8; i++){
+		galitems.push({
+			src: 'img/gal/'+i+'.jpg',
+			w: WIDTH,
+			h: height
+		});
+	}
+
+	// define options (if needed)
+	var options = {
+		index: 0,
+		history: false,
+		fullscreenEl: false,
+		shareEl: false,
+      	focus: false,
+		loop: false,
+		pinchToClose: false,
+		closeOnScroll: false,
+		closeOnVerticalDrag: false,
+       showAnimationDuration: 0,
+       hideAnimationDuration: 0
+	};
+	
+	// Initializes and opens PhotoSwipe
+	var Autos_Gallery = new PhotoSwipe( pswpElement, PhotoSwipeUI_Default, galitems, options);
+	Autos_Gallery.init();
 }
 function btnDetrasde(){
 	$('#menu').removeClass('toCenter'); 
@@ -823,55 +813,41 @@ function btnDetrasde(){
 	}
 }
 
-function galeriaImg(nu){
-	$('body').prepend('<div id="cortina"> </div>');
-	var n = (nu != undefined)? nu : 0;
-	var next = $('.gal-next');
-	var prev = $('.gal-prev');
-	
-	
-	$('<img>').attr('src', 'img/gal/'+n+'.jpg').load(function(){
-		
-		if(n > 6){
-			next.css('display', 'none');
-		}else{
-			next.css('display', 'block');
-			next.attr('onclick', 'galeriaImg('+(n+1)+')');
-			
-		}
-		//
-		if(n<1){
-			prev.css('display', 'none');
-		}else{
-			prev.css('display', 'block');
-			prev.attr('onclick', 'galeriaImg('+(n-1)+')');
-		}
-		$('#cortina').remove();
-		$('#galeria').css('background-image','url(img/gal/'+n+'.jpg)');
-		
-	});
-}
-
 function loadCalImage(n, f, swipe){
-	var obj = MesesData[n];
-	var contImage = $('#imagen');
-	var from = (f != undefined)? f : '#home';
 	
-	$('.gallery-months')
-	.css('transform', 'translate3d(-'+(WIDTH * n)+'px, 0, 0)')
-	.attr('data-show', n);
+	var pswpElement = document.querySelectorAll('.pswp')[0]
+	, alto = 640
+	, percentage = WIDTH / 960;
+	alto *= percentage;
+	var height = parseInt(alto),
+	galitems = [];
 	
-	if(swipe){
-		loadCalMes(n, swipe);
-	}else{
-		ak_navigate( from , '#imagen');
-		btnIzq({
-			text : 'Volver'
-			,from : '#imagen'
-			,to : '#home'
-			,fx : 'toRight'
+	for(i in MesesData){
+		galitems.push({
+			src: 'img/meses/'+i+'.jpg',
+			w: WIDTH,
+			h: height
 		});
 	}
+
+	// define options (if needed)
+	var options = {
+		index: n,
+		history: false,
+		fullscreenEl: false,
+		shareEl: false,
+      	focus: false,
+		loop: false,
+		pinchToClose: false,
+		closeOnScroll: false,
+		closeOnVerticalDrag: false,
+       showAnimationDuration: 0,
+       hideAnimationDuration: 0
+	};
+	
+	// Initializes and opens PhotoSwipe
+	var Chicas_Gallery = new PhotoSwipe( pswpElement, PhotoSwipeUI_Default, galitems, options);
+	Chicas_Gallery.init();
 }
 
 function loadCalMes(n, swipe){
