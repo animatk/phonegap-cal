@@ -3,7 +3,7 @@
 		xmlns:gap   = "http://phonegap.com/ns/1.0"
 		id          = "com.grupoiris.calendariosoho"
 		versionCode = "14" 
-		version     = "1.1.0" >
+		version     = "1.2.0" >
 	<!--	id          = "com.calendario.ford"-->
 	<!-- versionCode is optional and Android only -->
 	
@@ -22,6 +22,10 @@
 	
 	<gap:plugin name="org.li8.inappbrowser" version="0.1" />
 	<gap:plugin name="com.dawsonloudon.videoplayer" version="1.0.0" />
+	
+	<gap:config-file platform="ios" parent="CFBundleShortVersionString">
+	<string>120</string>
+	</gap:config-file>
 	
 	<!-- Define app icon for each platform. -->
 	<icon src="icon.png" />
